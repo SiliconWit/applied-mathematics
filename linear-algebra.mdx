@@ -1,0 +1,95 @@
+---
+title: 'Linear Algebra in Applied Mathematics'
+description: 'Understanding matrix operations and their applications in solving real-world problems'
+---
+import AppliedMathematicsComments from './components/AppliedMathematicsComments.astro';
+import DiscordWidget from './components/DiscordWidget.astro';
+import AppliedMathematicsContributors from './components/AppliedMathematicsContributors.astro';
+
+<AppliedMathematicsContributors />
+
+Linear algebra forms the backbone of many applied mathematics concepts and techniques. It provides powerful tools for solving systems of equations, analyzing data, and modeling complex phenomena across diverse fields such as physics, engineering, economics, and computer science.
+
+## Matrix Operations
+
+Matrices are the fundamental objects of study in linear algebra. They allow us to represent and manipulate linear transformations efficiently.
+
+### Matrix Multiplication
+
+Matrix multiplication is a binary operation that produces a matrix from two matrices. Given matrices A and B, the product C = AB has elements:
+
+$$C_{ij} = \sum_{k=1}^{n} A_{ik} B_{kj}$$
+
+### Determinants
+
+The determinant of a square matrix is a scalar value that provides important information about the matrix:
+
+$$\det(A) = |A| = \sum_{j=1}^{n} (-1)^{1+j} a_{1j} \det(A_{1j})$$
+
+where $A_{1j}$ is the submatrix formed by deleting the first row and $j$-th column of $A$.
+
+## Applications in Systems of Equations
+
+Linear algebra provides elegant solutions to systems of linear equations. A system of linear equations can be written in matrix form as:
+
+$$A \mathbf{x} = \mathbf{b}$$
+
+Where $A$ is the coefficient matrix, $\mathbf{x}$ is the vector of unknowns, and $\mathbf{b}$ is the constant vector.
+
+### Gaussian Elimination
+
+Gaussian elimination is a systematic procedure to solve systems of linear equations:
+
+1. Write the augmented matrix $[A|\mathbf{b}]$
+2. Convert to row echelon form using elementary row operations
+3. Back-substitute to find the solution
+
+### Inverse Matrix Method
+
+If $A$ is invertible, the solution to $A\mathbf{x} = \mathbf{b}$ is:
+
+$$\mathbf{x} = A^{-1}\mathbf{b}$$
+
+## Eigenvalues and Eigenvectors
+
+For a square matrix $A$, a non-zero vector $\mathbf{v}$ is an eigenvector with corresponding eigenvalue $\lambda$ if:
+
+$$A\mathbf{v} = \lambda\mathbf{v}$$
+
+Eigenvalues and eigenvectors have numerous applications:
+
+1. Diagonalizing matrices
+2. Solving differential equations
+3. Principal component analysis
+4. Quantum mechanics
+5. Network analysis
+
+## Applications in Data Science
+
+Linear algebra is essential in modern data science and machine learning:
+
+### Principal Component Analysis (PCA)
+
+PCA uses eigendecomposition of data covariance matrices to reduce dimensionality while preserving variance.
+
+### Linear Regression
+
+The least squares solution for linear regression can be expressed as:
+
+$$\mathbf{\hat{\beta}} = (X^T X)^{-1} X^T \mathbf{y}$$
+
+### Neural Networks
+
+Linear algebra operations form the computational foundation of neural networks, where matrix multiplications enable efficient processing of inputs through network layers.
+
+## Numerical Considerations
+
+When implementing linear algebra algorithms, numerical stability and computational efficiency are important concerns:
+
+- Condition number affects stability
+- Sparse matrices require specialized algorithms
+- Floating-point precision impacts accuracy
+- Parallelization can speed up large matrix operations
+
+<AppliedMathematicsComments />
+<DiscordWidget />
