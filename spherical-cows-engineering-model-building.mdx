@@ -1,10 +1,14 @@
 ---
 title: 'The Art of Simplification: Spherical Cows and Model Building'
-description: 'Understanding the power and limitations of abstraction in engineering through the lens of the famous "spherical cow" approach to modeling'
+description: 'Understanding the power and limitations of abstraction in engineering and applied science through the lens of the iconic "spherical cow" model.'
+contributors: "sam-macharia,jack-kojiro,new-person6"
+pubDate: 2024-01-15
+tags: ["modeling", "simulation", "applied-math", "engineering", "abstraction"]
+excerpt: "Explore how engineers and scientists use simplification to model complex systems, and examine the balance between accuracy and usability in simulations and mathematical models."
 ---
 import AppliedMathematicsComments from './components/AppliedMathematicsComments.astro';
 import DiscordWidget from './components/DiscordWidget.astro';
-import AppliedMathematicsContributors from './components/AppliedMathematicsContributors.astro';
+import UniversalContributors from '../../../../components/UniversalContributors.astro';
 
 import TailwindWrapper from '../../../../components/TailwindWrapper';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
@@ -12,7 +16,10 @@ import { Card, CardGrid } from '@astrojs/starlight/components';
 
 import GLBViewer from './components/demos/GLBViewer.tsx';
 
-<AppliedMathematicsContributors />
+<UniversalContributors 
+  contributors={frontmatter.contributors}
+  repoName="solid-mechanics"
+/>
 
 Model simplification is a cornerstone of scientific and engineering analysis. By reducing complex systems to their essential components, we gain insights that might otherwise remain hidden in the noise of reality. The "spherical cow" represents this principle in its purest form—a deliberate abstraction that trades accuracy for tractability.
 
@@ -85,6 +92,10 @@ For a cow with volume of 146,499 mm³:
 | Volume (mm³) | 146,499.26 | 146,499.26 | 1.00 |
 | Surface Area (mm²) | 32,380.01 | 13,439.23 | 0.42 |
 | Surface/Volume Ratio (mm⁻¹) | 0.22 | 0.09 | 0.41 |
+
+
+
+
 
 A sphere has the minimum surface area for a given volume, which explains why the spherical cow has only 42% of the surface area of the realistic cow.
 
@@ -398,7 +409,7 @@ The key insight: by abstracting away molecular complexity, they could clearly ob
 
 ## Implementation: Spherical Cow Analysis with Python
 
-Rather than implementing a full model from scratch, we'll explore key aspects of the spherical cow comparison code. The complete implementation is available on GitHub at [https://github.com/SiliconWit/applied-mathematics](https://github.com/SiliconWit/applied-mathematics) in the spherical cow modeling section.
+Rather than implementing a full model from scratch, we'll explore key aspects of the spherical cow comparison code. The complete implementation is available on GitHub at [https://github.com/SiliconWit/applied-mathematics](https://github.com/SiliconWit/applied-mathematics/blob/main/realistic_vs_spherical_cow.py) in the spherical cow modeling section.
 
 ### Key Components of the Spherical Cow Analysis
 
@@ -553,7 +564,7 @@ Remember that these projects are meant to develop your modeling intuition—the 
 
 ### Online Resources
 
-1. "Spherical Cow Implementation" - [https://github.com/SiliconWit/applied-mathematics](https://github.com/SiliconWit/applied-mathematics)
+1. "Spherical Cow Implementation" - [https://github.com/SiliconWit/applied-mathematics](https://github.com/SiliconWit/applied-mathematics/blob/main/realistic_vs_spherical_cow.py)
 
 2. "Order-of-Magnitude Physics" - [https://www.physics.harvard.edu/files/science/files/lecture1.pdf](https://www.physics.harvard.edu/files/science/files/lecture1.pdf)
 
