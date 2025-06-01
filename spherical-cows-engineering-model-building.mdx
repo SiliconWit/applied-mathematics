@@ -2,23 +2,22 @@
 title: 'The Art of Simplification: Spherical Cows and Model Building'
 description: 'Understanding the power and limitations of abstraction in engineering and applied science through the lens of the iconic "spherical cow" model.'
 contributors: "sam-macharia,jack-kojiro,new-person6"
-pubDate: 2024-01-15
+pubDate: 2025-06-01
 tags: ["modeling", "simulation", "applied-math", "engineering", "abstraction"]
 excerpt: "Explore how engineers and scientists use simplification to model complex systems, and examine the balance between accuracy and usability in simulations and mathematical models."
 ---
+
 import AppliedMathematicsComments from '../../../../components/applied-mathematics/AppliedMathematicsComments.astro';
 import TawkWidget from '../../../../components/TawkWidget.astro';
 import UniversalContributors from '../../../../components/UniversalContributors.astro';
-
-import TailwindWrapper from '../../../../components/TailwindWrapper';
+import Copyright from '../../../../components/Copyright.astro';
+import BionicText from '../../../../components/BionicText.astro';
+import TailwindWrapper from '../../../../components/TailwindWrapper.jsx';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-import GLBViewer from './components/demos/GLBViewer.tsx';
-
 <UniversalContributors 
   contributors={frontmatter.contributors}
-  repoName="applied-mathematics"
 />
 
 Model simplification is a cornerstone of scientific and engineering analysis. By reducing complex systems to their essential components, we gain insights that might otherwise remain hidden in the noise of reality. The "spherical cow" represents this principle in its purest form—a deliberate abstraction that trades accuracy for tractability.
@@ -71,8 +70,6 @@ At its core, model building is the art of deliberate approximation. We simplify 
 
 Let's examine what happens when we compare a realistic cow model with its spherical approximation. Our models reveal significant differences in key physical properties:
 
-
-
 <div style={{ width: '100%', height: '600px', marginBottom: '2rem' }}>
   <iframe 
     src="/education/applied-mathematics/components/SphericalCowDemo.html" 
@@ -80,8 +77,6 @@ Let's examine what happens when we compare a realistic cow model with its spheri
     title="3D Spherical Cow Visualization" 
   />
 </div>
-
-
 
 ### Volume and Surface Area
 
@@ -92,10 +87,6 @@ For a cow with volume of 146,499 mm³:
 | Volume (mm³) | 146,499.26 | 146,499.26 | 1.00 |
 | Surface Area (mm²) | 32,380.01 | 13,439.23 | 0.42 |
 | Surface/Volume Ratio (mm⁻¹) | 0.22 | 0.09 | 0.41 |
-
-
-
-
 
 A sphere has the minimum surface area for a given volume, which explains why the spherical cow has only 42% of the surface area of the realistic cow.
 
@@ -560,8 +551,6 @@ Remember that these projects are meant to develop your modeling intuition—the 
 7. **Krauss, L. M. (1994).** *The Fear of Physics: A Guide for the Perplexed*. Basic Books.<br />
    – Offers a philosophical and accessible reflection on how physicists use simplification and intuition, making complex ideas comprehensible without sacrificing depth.
 
-
-
 ### Online Resources
 
 1. "Spherical Cow Implementation" - [https://github.com/SiliconWit/applied-mathematics](https://github.com/SiliconWit/applied-mathematics/blob/main/realistic_vs_spherical_cow.py)
@@ -605,3 +594,4 @@ Remember Einstein's wisdom: "Everything should be made as simple as possible, bu
 
 <AppliedMathematicsComments />
 <TawkWidget />
+<Copyright />
