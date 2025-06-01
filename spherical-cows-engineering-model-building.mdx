@@ -6,8 +6,8 @@ pubDate: 2024-01-15
 tags: ["modeling", "simulation", "applied-math", "engineering", "abstraction"]
 excerpt: "Explore how engineers and scientists use simplification to model complex systems, and examine the balance between accuracy and usability in simulations and mathematical models."
 ---
-import AppliedMathematicsComments from './components/AppliedMathematicsComments.astro';
-import DiscordWidget from './components/DiscordWidget.astro';
+import AppliedMathematicsComments from '../../../../components/applied-mathematics/AppliedMathematicsComments.astro';
+import TawkWidget from '../../../../components/TawkWidget.astro';
 import UniversalContributors from '../../../../components/UniversalContributors.astro';
 
 import TailwindWrapper from '../../../../components/TailwindWrapper';
@@ -18,7 +18,7 @@ import GLBViewer from './components/demos/GLBViewer.tsx';
 
 <UniversalContributors 
   contributors={frontmatter.contributors}
-  repoName="solid-mechanics"
+  repoName="applied-mathematics"
 />
 
 Model simplification is a cornerstone of scientific and engineering analysis. By reducing complex systems to their essential components, we gain insights that might otherwise remain hidden in the noise of reality. The "spherical cow" represents this principle in its purest form—a deliberate abstraction that trades accuracy for tractability.
@@ -604,4 +604,4 @@ As you develop your modeling skills, strive to cultivate:
 Remember Einstein's wisdom: "Everything should be made as simple as possible, but no simpler." In that deceptively straightforward guidance lies the art of model building—and the essence of the spherical cow.
 
 <AppliedMathematicsComments />
-<DiscordWidget />
+<TawkWidget />
