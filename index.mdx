@@ -1,20 +1,248 @@
 ---
 title: Applied Mathematics
-description: Mathematical methods for solving real-world problems
+description: Mathematical foundations and computational methods for engineering problem-solving and scientific analysis
 ---
 
-# Applied Mathematics
+import { Card, CardGrid, Badge, Steps } from '@astrojs/starlight/components';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Copyright from '../../../../components/Copyright.astro';
 
-This section focuses on mathematical techniques and methods used to solve problems in science, engineering, and other fields.
+<div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+<Badge text="Foundation Course" variant="success" />
+<Badge text="Mathematical Methods" variant="note" />
+<Badge text="Problem Solving" variant="tip" />
+<Badge text="Engineering Applications" variant="caution" />
+</div>
 
-## Topics Covered
+Applied Mathematics provides the mathematical foundation essential for engineering analysis, scientific computation, and problem-solving across multiple disciplines. This course bridges abstract mathematical concepts with practical applications in engineering, physics, and technology.
 
-- Differential equations and applications
-- Numerical methods and computational mathematics
-- Optimization theory
-- Linear algebra and matrix methods
-- Statistical methods and probability
+## Course Overview
 
-## Learning Resources
+<CardGrid>
+  <Card title="Mathematical Foundations" icon="rocket">
+    **Core Mathematical Concepts**
+    
+    Linear algebra, differential equations, and optimization theory provide the mathematical framework for understanding and solving complex engineering problems.
+  </Card>
+  
+  <Card title="Computational Methods" icon="setting">
+    **Numerical Analysis**
+    
+    Numerical methods and computational techniques for solving mathematical problems that cannot be solved analytically, essential for modern engineering applications.
+  </Card>
+  
+  <Card title="Engineering Applications" icon="laptop">
+    **Real-World Problem Solving**
+    
+    Application of mathematical methods to solve practical engineering problems including system modeling, optimization, and data analysis.
+  </Card>
+  
+  <Card title="Scientific Computing" icon="puzzle">
+    **Computational Tools**
+    
+    Using mathematical software and programming tools to implement algorithms, visualize results, and solve complex mathematical problems efficiently.
+  </Card>
+</CardGrid>
 
-[Resource links will be added here]
+## Learning Path
+
+<Tabs>
+  <TabItem label="Fundamentals">
+    ### Mathematical Foundations
+    
+    **Linear Algebra Systems**:
+    - Matrix operations and linear transformations
+    - Eigenvalues and eigenvectors
+    - System of linear equations
+    - Applications in engineering analysis
+    
+    **Key Learning Outcomes**:
+    - Master matrix algebra for engineering systems
+    - Understand vector spaces and linear transformations
+    - Apply linear algebra to solve engineering problems
+    
+    [Study Linear Algebra →](./linear-algebra)
+  </TabItem>
+  
+  <TabItem label="Modeling">
+    ### Mathematical Modeling
+    
+    **Problem Abstraction**:
+    - Identifying key variables and relationships
+    - Simplifying complex systems for analysis
+    - Validation and verification of models
+    - Engineering approximation techniques
+    
+    **Practical Applications**:
+    - Physical system modeling
+    - Engineering design optimization
+    - Scientific hypothesis testing
+    
+    [Explore Spherical Cow Modeling →](./spherical-cows-engineering-model-building)
+  </TabItem>
+  
+  <TabItem label="Advanced Topics">
+    ### Advanced Applications
+    
+    **Differential Equations**:
+    - Ordinary and partial differential equations
+    - Numerical solution methods
+    - Applications in dynamic systems
+    
+    **Optimization Theory**:
+    - Linear and nonlinear optimization
+    - Constraint optimization methods
+    - Engineering design applications
+    
+    **Statistical Methods**:
+    - Probability theory and statistics
+    - Data analysis and interpretation
+    - Experimental design and analysis
+    
+    *Advanced topics will be added as course development continues*
+  </TabItem>
+</Tabs>
+
+## Course Structure
+
+### Core Topics
+
+<Steps>
+
+1. **Linear Algebra Foundations**
+   
+   Matrix operations, vector spaces, and linear transformations essential for engineering system analysis and computational methods.
+
+2. **Mathematical Modeling Principles**
+   
+   Learning to abstract complex real-world problems into mathematical representations, including the famous "spherical cow" approach to engineering approximation.
+
+3. **Numerical Methods**
+   
+   Computational techniques for solving mathematical problems, including iteration methods, approximation techniques, and algorithm implementation.
+
+4. **Optimization Theory**
+   
+   Methods for finding optimal solutions to engineering problems, including linear programming, nonlinear optimization, and constraint handling.
+
+</Steps>
+
+## Mathematical Tools and Software
+
+<CardGrid>
+  <Card title="Analytical Methods" icon="document">
+    **Hand Calculation Techniques**
+    
+    - Matrix algebra by hand
+    - Analytical solution methods
+    - Graphical analysis techniques
+    - Engineering estimation methods
+  </Card>
+  
+  <Card title="Computational Tools" icon="laptop">
+    **Mathematical Software**
+    
+    - MATLAB/Octave for numerical computation
+    - Python with NumPy/SciPy
+    - Mathematica for symbolic computation
+    - Excel for basic analysis and visualization
+  </Card>
+  
+  <Card title="Programming Applications" icon="chart">
+    **Algorithm Implementation**
+    
+    - Custom algorithm development
+    - Numerical method programming
+    - Data visualization and analysis
+    - Performance optimization techniques
+  </Card>
+  
+  <Card title="Verification Methods" icon="star">
+    **Solution Validation**
+    
+    - Analytical verification of numerical results
+    - Convergence analysis
+    - Error estimation and control
+    - Physical reasonableness checks
+  </Card>
+</CardGrid>
+
+## Learning Objectives
+
+By the end of this course, students will be able to:
+
+### Mathematical Competency
+- **Apply linear algebra** to solve engineering system problems
+- **Develop mathematical models** of real-world engineering systems
+- **Implement numerical methods** for solving complex mathematical problems
+- **Use optimization techniques** to find optimal engineering solutions
+
+### Problem-Solving Skills
+- **Abstract complex problems** into manageable mathematical representations
+- **Choose appropriate mathematical methods** for specific problem types
+- **Validate and verify** mathematical solutions against physical reality
+- **Communicate mathematical results** effectively to technical audiences
+
+### Computational Proficiency
+- **Use mathematical software** effectively for problem solving
+- **Implement algorithms** for numerical computation
+- **Visualize mathematical results** and data effectively
+- **Optimize computational performance** for large-scale problems
+
+## Prerequisites and Background
+
+### Mathematical Background
+- **Calculus I & II**: Differentiation, integration, and series
+- **Basic Programming**: Familiarity with programming concepts
+- **Physics I**: Understanding of physical principles
+- **Engineering Fundamentals**: Basic engineering problem-solving skills
+
+### Recommended Preparation
+- Review of basic algebra and trigonometry
+- Familiarity with coordinate systems and graphing
+- Basic understanding of scientific notation and units
+- Introduction to engineering problem-solving methods
+
+## Assessment and Evaluation
+
+### Problem-Solving Approach
+- **Analytical Problems**: Hand calculations and theoretical analysis
+- **Computational Projects**: Implementation of numerical methods
+- **Modeling Exercises**: Development of mathematical models for real systems
+- **Optimization Challenges**: Finding optimal solutions to engineering problems
+
+### Skills Development
+- **Mathematical Communication**: Clear presentation of mathematical work
+- **Software Proficiency**: Effective use of computational tools
+- **Critical Thinking**: Evaluation of solution validity and practical implications
+- **Engineering Judgment**: Appropriate use of approximations and assumptions
+
+## Applications in Engineering
+
+### Structural Engineering
+- Matrix analysis of structural systems
+- Optimization of structural designs
+- Dynamic analysis using differential equations
+- Statistical analysis of material properties
+
+### Electrical Engineering
+- Circuit analysis using linear algebra
+- Signal processing and filtering
+- Control system design and optimization
+- Probability in communication systems
+
+### Mechanical Engineering
+- Vibration analysis and control
+- Heat transfer and fluid flow modeling
+- Manufacturing process optimization
+- Statistical quality control
+
+### Interdisciplinary Applications
+- Data science and machine learning
+- Financial engineering and risk analysis
+- Biomedical engineering applications
+- Environmental modeling and analysis
+
+The Applied Mathematics course provides essential mathematical tools that serve as the foundation for advanced engineering analysis and design across all engineering disciplines.
+
+<Copyright />
