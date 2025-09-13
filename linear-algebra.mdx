@@ -2,7 +2,7 @@
 title: 'Linear Algebra in Applied Mathematics'
 description: 'Understanding matrix operations and their applications in solving real-world problems'
 contributors: "sam-macharia,jack-kojiro,new-person6"
-pubDate: 2025-08-30
+pubDate: 2025-09-13
 tags: ["linear-algebra", "mathematics", "matrix-operations", "applied-mathematics", "engineering", "problem-solving"]
 excerpt: "Explore essential linear algebra concepts including matrix operations, vector spaces, eigenvalues, and linear transformations with practical applications in engineering, data analysis, and computational problem-solving."
 ---
@@ -10,11 +10,12 @@ excerpt: "Explore essential linear algebra concepts including matrix operations,
 import AppliedMathematicsComments from '../../../../components/applied-mathematics/AppliedMathematicsComments.astro';
 import TawkWidget from '../../../../components/TawkWidget.astro';
 import UniversalContentContributors from '../../../../components/UniversalContentContributors.astro';
+import InArticleAd from '../../../../components/InArticleAd.astro';
 import Copyright from '../../../../components/Copyright.astro';
 import BionicText from '../../../../components/BionicText.astro';
 import TailwindWrapper from '../../../../components/TailwindWrapper.jsx';
 import { Tabs, TabItem } from '@astrojs/starlight/components';
-import { Card, CardGrid, Badge, Steps } from '@astrojs/starlight/components';
+import { Card, CardGrid, Badge, Steps, LinkButton } from '@astrojs/starlight/components';
 
 <UniversalContentContributors 
   contributors={frontmatter.contributors}
@@ -57,6 +58,9 @@ Gaussian elimination is a systematic procedure to solve systems of linear equati
 3. Back-substitute to find the solution
 
 ### Inverse Matrix Method
+
+
+<InArticleAd />
 
 If $A$ is invertible, the solution to $A\mathbf{x} = \mathbf{b}$ is:
 
@@ -103,6 +107,7 @@ When implementing linear algebra algorithms, numerical stability and computation
 - Floating-point precision impacts accuracy
 - Parallelization can speed up large matrix operations
 
+<InArticleAd />
 <AppliedMathematicsComments />
 <TawkWidget />
 <Copyright />
