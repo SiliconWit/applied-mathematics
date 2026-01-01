@@ -2,7 +2,7 @@
 title: 'The Art of Simplification: Spherical Cows and Model Building'
 description: 'Understanding the power and limitations of abstraction in engineering and applied science through the lens of the iconic "spherical cow" model.'
 contributors: "sam-macharia,jack-kojiro"
-pubDate: 2025-09-15
+pubDate: 2025-09-02
 tags: ["modeling", "simulation", "applied-math", "engineering", "abstraction"]
 excerpt: "Explore how engineers and scientists use simplification to model complex systems, and examine the balance between accuracy and usability in simulations and mathematical models."
 ---
@@ -10,6 +10,7 @@ excerpt: "Explore how engineers and scientists use simplification to model compl
 import AppliedMathematicsComments from '../../../../components/applied-mathematics/AppliedMathematicsComments.astro';
 import TawkWidget from '../../../../components/TawkWidget.astro';
 import UniversalContentContributors from '../../../../components/UniversalContentContributors.astro';
+import InArticleAd from '../../../../components/InArticleAd.astro';
 import Copyright from '../../../../components/Copyright.astro';
 import BionicText from '../../../../components/BionicText.astro';
 import TailwindWrapper from '../../../../components/TailwindWrapper.jsx';
@@ -68,15 +69,14 @@ At its core, model building is the art of deliberate approximation. We simplify 
 
 ## Quantitative Comparison: Spherical vs. Realistic Cow
 
+<InArticleAd />
+
+
 Let's examine what happens when we compare a realistic cow model with its spherical approximation. Our models reveal significant differences in key physical properties:
 
-<div style={{ width: '100%', height: '600px', marginBottom: '2rem' }}>
-  <iframe 
-    src="/education/applied-mathematics/components/SphericalCowDemo.html" 
-    style={{ width: '100%', height: '100%', border: 'none', borderRadius: '8px' }}
-    title="3D Spherical Cow Visualization" 
-  />
-</div>
+<LinkButton href="/product-development/glb-viewer/?model=siliconwit/spherical-cow.glb" variant="primary" icon="external" iconPlacement="start">
+  View 3D Spherical Cow Model
+</LinkButton>
 
 ### Volume and Surface Area
 
@@ -252,6 +252,9 @@ This explains why the realistic cow model would both dissipate and gain heat mor
 
 ## The Goldilocks Zone: Finding the Right Level of Abstraction
 
+<InArticleAd />
+
+
 In modeling, there exists what we might call the "Goldilocks zone" of complexity—not too simple, not too complex, but just right. This optimal balance varies based on the question being asked and the resources available.
 
 ### Example 1: Predicting Candle Burn Time
@@ -328,6 +331,7 @@ Develop a simple but accurate model for predicting cooking times for different f
 4. Test your model against cooking recommendations from established sources
 
 **Questions to consider:**
+
 - How does starting temperature affect cooking time, and how could you incorporate this?
 - For non-spherical items, what is the best "characteristic dimension" to use?
 - How would you adjust your model for different cooking methods (roasting vs. sous vide)?
@@ -350,6 +354,9 @@ Choose a real-world problem where "spherical cow" simplifications could provide 
 - Predicting natural frequency of structures
 
 ## Historical Engineering Failures Due to Over-Simplification
+
+<InArticleAd />
+
 
 The history of engineering contains cautionary tales about the dangers of excessive simplification:
 
@@ -592,6 +599,7 @@ As you develop your modeling skills, strive to cultivate:
 
 Remember Einstein's wisdom: "Everything should be made as simple as possible, but no simpler." In that deceptively straightforward guidance lies the art of model building—and the essence of the spherical cow.
 
+<InArticleAd />
 <AppliedMathematicsComments />
 <TawkWidget />
 <Copyright />
