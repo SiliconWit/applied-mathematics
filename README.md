@@ -12,6 +12,8 @@ sidebar:
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Contributors Welcome](https://img.shields.io/badge/contributors-welcome-orange)
 
+**Read this course at:** [https://siliconwit.com/education/applied-mathematics/](https://siliconwit.com/education/applied-mathematics/)
+
 A foundation course covering mathematical methods for engineering problem-solving and scientific analysis. Topics include linear algebra, computational methods, and the art of building useful mathematical models from real-world systems.
 
 ## Lessons
