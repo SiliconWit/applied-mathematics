@@ -2,37 +2,32 @@
 title: Applied Mathematics
 description: The mathematics engineers actually use, taught through real problems, physical intuition, and Python code
 pubDate: 2026-03-01
+heroImage: "https://cdn.siliconwit.com/education/applied-mathematics/applied-mathematics-overview.png"
 ---
 
-import { Card, CardGrid, Badge, Steps } from '@astrojs/starlight/components';
+import { Card, CardGrid, Steps } from '@astrojs/starlight/components';
 import Copyright from '../../../../components/Copyright.astro';
 import TawkWidget from '../../../../components/TawkWidget.astro';
 import InArticleAd from '../../../../components/InArticleAd.astro';
 
-<div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
-<Badge text="Applied Course" variant="success" />
-<Badge text="Python" variant="note" />
-<Badge text="Engineering Math" variant="tip" />
-</div>
-
 Mathematics is the language engineers use to describe, predict, and control the physical world. This course teaches the parts of that language you will use most often. Not proofs, not abstraction for its own sake, but the mathematical tools that show up every day in circuit analysis, control systems, signal processing, and mechanical design.
 
-Every lesson starts with a real problem, introduces the math as the tool to solve it, and works through the solution. Python code makes things concrete. ASCII diagrams help you see what the equations mean. If a formula appears, it is preceded by the intuition for why it works.
+Every lesson starts with a real problem, introduces the math as the tool to solve it, and works through the solution. Python code makes things concrete. If a formula appears, it is preceded by the intuition for why it works.
 
 This is not a prerequisite you need to complete before doing anything else. It is a reference. Work through the lessons in order if you want a structured path, or jump to whichever topic you need right now and come back later for the rest.
 
 ## What You Need
 
-All you need is a computer with Python installed. We use NumPy and Matplotlib for computation and plotting. No special hardware, no expensive software. If you can run a Python script, you are ready.
+All you need is a computer with Python installed. We use NumPy and Matplotlib for computation and plotting. No special hardware, no expensive software.
 
 ```bash
 pip install numpy matplotlib scipy
 ```
 
-## Course Lessons
+## Lessons
 
 <CardGrid>
-  <Card title="Lesson 1: Spherical Cows and the Art of Model Building" icon="rocket">
+  <Card title="Lesson 1: Spherical Cows and Model Building" icon="rocket">
     Why all models are wrong, some are useful, and how to build the right one for your problem. Fermi estimation, the modeling cycle, and Newton's law of cooling as a worked example.
 
     [Start Lesson 1](./spherical-cows-model-building)
@@ -56,34 +51,34 @@ pip install numpy matplotlib scipy
     [Start Lesson 4](./complex-numbers-and-phasors)
   </Card>
 
-  <Card title="Lesson 5: Differential Equations for Physical Systems" icon="star">
-    How to describe systems that change over time. First-order systems (RC circuits, thermal decay), second-order systems (springs, RLC circuits), and numerical solutions.
+  <Card title="Lesson 5: Probability, Statistics, and Noise" icon="approve-check">
+    Every sensor reading has noise. Mean, variance, Gaussian distribution, moving averages, exponential filtering, confidence intervals, and outlier detection.
 
-    [Start Lesson 5](./differential-equations/)
+    [Start Lesson 5](./probability-statistics-noise)
   </Card>
 
-  <Card title="Lesson 6: Fourier Analysis and Signal Processing" icon="document">
-    Decomposing signals into frequencies. The Fourier transform, frequency spectra, filtering, and the DFT/FFT for practical signal analysis with Python.
+  <Card title="Lesson 6: Differential Equations and Real Systems" icon="star">
+    How to describe systems that change over time. RC circuits, spring-mass systems, thermal decay, and solving ODEs numerically with Euler's method.
 
-    [Start Lesson 6](./fourier-analysis-and-signal-processing/)
+    [Start Lesson 6](./differential-equations-real-systems)
   </Card>
 
-  <Card title="Lesson 7: Numerical Methods" icon="information">
-    When exact solutions do not exist, numerical methods take over. Root finding, numerical integration, ODE solvers, and interpolation with SciPy.
+  <Card title="Lesson 7: Fourier Analysis and the Frequency Domain" icon="document">
+    Any signal is a sum of sine waves. Time domain vs frequency domain, FFT, sampling theorem, aliasing, and spectral analysis with Python.
 
-    [Start Lesson 7](./numerical-methods/)
+    [Start Lesson 7](./fourier-analysis-frequency-domain)
   </Card>
 
-  <Card title="Lesson 8: Optimization" icon="list-format">
-    Finding the best answer under constraints. Gradient descent, linear programming, least squares fitting, and engineering design optimization.
+  <Card title="Lesson 8: Numerical Methods: Math in Code" icon="information">
+    Computers do arithmetic, very fast. Root finding, numerical integration, interpolation, curve fitting, Runge-Kutta ODE solvers, and floating-point gotchas.
 
-    [Start Lesson 8](./optimization/)
+    [Start Lesson 8](./numerical-methods-computation)
   </Card>
 
-  <Card title="Lesson 9: Probability and Statistics for Engineers" icon="approve-check">
-    Uncertainty is not the enemy; it is the reality. Distributions, confidence intervals, hypothesis testing, and Monte Carlo simulation for engineering decisions.
+  <Card title="Lesson 9: Feedback and Control Systems" icon="list-format">
+    Measure, compare, adjust. Open-loop vs closed-loop, PID control, Ziegler-Nichols tuning, stability, and practical applications from thermostats to motor controllers.
 
-    *Coming soon*
+    [Start Lesson 9](./feedback-control-systems)
   </Card>
 </CardGrid>
 
@@ -107,11 +102,11 @@ pip install numpy matplotlib scipy
 
 4. **Python Code**
 
-   Computation makes abstract ideas concrete. You will see NumPy arrays, Matplotlib plots, and SciPy solvers applied to real engineering data.
+   Computation makes abstract ideas concrete. NumPy arrays, Matplotlib plots, and SciPy solvers applied to real problems.
 
 5. **Reference Quality**
 
-   These lessons are written so you can come back to them years later and still find them useful. Clear notation, complete derivations, and practical context.
+   These lessons are written so you can come back to them years later and still find them useful.
 
 </Steps>
 

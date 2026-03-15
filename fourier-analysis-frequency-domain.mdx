@@ -28,6 +28,17 @@ A vibrating guitar string does not produce a single pure tone. It produces a fun
 
 #Fourier #FrequencyDomain #SignalProcessing
 
+<Card title="Why Fourier Matters in Everyday Life" icon="star">
+  Fourier analysis is not just a classroom exercise. It runs quietly behind dozens of things you use every day:
+
+  - **Music and hearing.** Your ear performs a Fourier transform in real time, separating individual instruments from a single pressure wave hitting your eardrum.
+  - **Phone equalizer.** When you boost the bass or cut the treble, you are amplifying or attenuating specific frequency bands of the audio signal.
+  - **Voice recognition.** Before any speech AI processes your words, it first breaks the audio into frequency components using an FFT.
+  - **Medical imaging.** MRI machines reconstruct images from radio frequency signals using 2D and 3D Fourier transforms.
+  - **Vibration diagnostics.** A car mechanic can tell which bearing is failing by the frequency of the noise. The FFT makes that identification precise and automatic.
+  - **Compression.** JPEG images and MP3 audio files are Fourier-based: keep the important frequencies, discard the ones your eyes or ears will not notice, and the file shrinks dramatically.
+</Card>
+
 ## The Big Idea: Any Signal Is a Sum of Sines
 
 Joseph Fourier's insight, radical when he proposed it in 1807, was that any periodic signal $f(t)$ can be written as a sum of sines and cosines:

@@ -30,7 +30,9 @@ Linear algebra is the most useful branch of mathematics you will ever learn. Tha
 
 ## Vectors: Arrows with Meaning
 
-A vector is a quantity that has both magnitude and direction. Forces, velocities, electric fields, and displacements are all vectors. Think of a vector in 2D as an instruction: "go 3 steps east and 4 steps north." We write this as:
+A vector is a quantity that has both magnitude and direction. Your phone's accelerometer, for example, outputs a 3D vector: it measures gravity (always pointing down) plus the phone's own acceleration. Subtracting the gravity vector from the reading gives you just the phone's motion, which is how your phone knows the difference between "tilted" and "shaken."
+
+Forces, velocities, electric fields, and displacements are all vectors. Think of a vector in 2D as an instruction: "go 3 steps east and 4 steps north." We write this as:
 
 $$\mathbf{v} = \begin{bmatrix} 3 \\ 4 \end{bmatrix}$$
 
@@ -177,7 +179,7 @@ In matrix form:
 
 $$\begin{bmatrix} 5 & -2 \\ -2 & 7 \end{bmatrix} \begin{bmatrix} I_1 \\ I_2 \end{bmatrix} = \begin{bmatrix} 10 \\ 0 \end{bmatrix}$$
 
-This is $A\mathbf{x} = \mathbf{b}$, where $A$ is the coefficient matrix, $\mathbf{x}$ is the unknown vector (currents), and $\mathbf{b}$ is the source vector (voltages).
+This is $A\mathbf{x} = \mathbf{b}$, where $A$ is the coefficient matrix, $\mathbf{x}$ is the unknown vector (currents), and $\mathbf{b}$ is the source vector (voltages). GPS works the same way: your phone receives distances from multiple satellites and solves a system of equations to find your position. Trilateration is just $A\mathbf{x} = \mathbf{b}$ with geometry.
 
 ### Solving Ax = b
 
@@ -221,6 +223,8 @@ $$A\mathbf{v} = \lambda \mathbf{v}$$
 The scalar $\lambda$ is the eigenvalue. The eigenvector $\mathbf{v}$ points in a direction that the transformation preserves.
 
 ### Why Eigenvalues Matter
+
+Google's PageRank algorithm, which decides the order of your search results, is fundamentally an eigenvalue problem. The "importance" of each webpage is the dominant eigenvector of a matrix representing the link structure of the entire web.
 
 Eigenvalues appear everywhere in engineering because they describe the natural behavior of systems:
 

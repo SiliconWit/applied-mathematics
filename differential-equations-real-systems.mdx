@@ -117,6 +117,8 @@ $$T(t) = T_{\text{ambient}} + (T_0 - T_{\text{ambient}})e^{-kt}$$
 
 The constant $k$ depends on the thermal properties: surface area, material, air circulation. A ceramic mug cools faster than a vacuum flask because $k$ is larger.
 
+The interest on your savings account follows this same exponential equation, just growing instead of decaying. Compound interest is $A(t) = A_0 \, e^{rt}$, the same mathematical structure as a charging capacitor. The constants differ, but the equation is identical.
+
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -168,6 +170,8 @@ where $b$ is the damping coefficient (friction) and $F(t)$ is an external force.
   |
   |~~~~~~~~~~~~~ damper b (friction)
 ```
+
+Your car's suspension is exactly this system. The spring supports the car's weight, the shock absorber provides damping, and the car body is the mass. Too little damping (worn shocks) means a bouncy ride. Too much damping means a harsh ride that transmits every bump. The manufacturer tunes the suspension to be slightly underdamped for a comfortable balance of smoothness and responsiveness.
 
 This is the second-order ODE that governs vibration in mechanical systems, oscillation in electrical circuits, and resonance in acoustic systems. The three terms represent:
 

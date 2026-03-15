@@ -74,6 +74,8 @@ For a Gaussian distribution:
 
 This gives you a practical way to spot problems. If a reading is more than $3\sigma$ from the mean, there is less than a 0.3% chance it is just noise. Something else is going on.
 
+Weather forecasts use this same thinking. When a forecast says "70% chance of rain," it means the model predicted rain in 7 out of 10 historically similar atmospheric conditions. It is not a guess; it is a probability derived from data.
+
 ### Histograms: Seeing Your Distribution
 
 A histogram bins your data into ranges and counts how many readings fall in each bin. It is the visual form of a probability distribution.
@@ -151,6 +153,8 @@ $$\text{EMA}_k = \alpha \cdot x_k + (1 - \alpha) \cdot \text{EMA}_{k-1}$$
 where $\alpha$ is between 0 and 1. A small $\alpha$ (like 0.05) gives heavy smoothing. A large $\alpha$ (like 0.5) tracks changes quickly but smooths less.
 
 The EMA is beautiful for embedded systems: you only need to store one value (the previous EMA), and the computation is a single multiply-add. No buffer of past readings needed.
+
+Your phone's step counter uses a similar statistical filter. The accelerometer signal contains walking vibrations mixed with random hand movements, and the filter distinguishes the rhythmic pattern of steps from everything else.
 
 ### Weighted Moving Average
 

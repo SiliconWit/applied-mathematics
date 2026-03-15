@@ -222,6 +222,10 @@ Impedances combine exactly like resistances:
 - **Series:** $Z_{\text{total}} = Z_1 + Z_2 + \cdots$
 - **Parallel:** $\frac{1}{Z_{\text{total}}} = \frac{1}{Z_1} + \frac{1}{Z_2} + \cdots$
 
+Your phone charger converts AC from the wall outlet to DC for the battery. The efficiency of that conversion depends on impedance matching between the transformer windings, which is calculated using complex numbers. A mismatch means wasted power and heat.
+
+Audio equalizers also rely on this math. When you boost the bass or cut the treble on your phone, the equalizer is adjusting the gain at different frequencies using complex transfer functions, exactly like the RC filter analysis below.
+
 This is why phasors were invented. You can analyze any AC circuit using the same rules you learned for DC circuits, just with complex numbers instead of real ones.
 
 ## Worked Example: RC Low-Pass Filter

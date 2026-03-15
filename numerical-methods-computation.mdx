@@ -28,6 +28,16 @@ Computers do not understand limits, continuity, or infinitesimals. They understa
 
 #NumericalMethods #ScientificComputing #Engineering
 
+<Card title="Where Numerical Methods Run" icon="star">
+  Numerical methods are not academic curiosities. They power the technology around you:
+
+  - **GPS.** Your phone solves nonlinear equations to triangulate your position from satellite distances.
+  - **Weather forecasts.** Supercomputers numerically integrate atmospheric equations over a 3D grid of the entire planet, millions of times per forecast.
+  - **Game physics.** Every bouncing ball, ragdoll animation, and vehicle collision in a video game uses an ODE solver (often RK4 or a variant).
+  - **Structural engineering.** Finite element analysis breaks a bridge or building into thousands of tiny elements, each governed by equations solved numerically.
+  - **Machine learning.** Gradient descent, the algorithm that trains neural networks, is essentially Newton's method applied to a loss function.
+</Card>
+
 ## Root Finding: Where Does f(x) = 0?
 
 Many engineering problems reduce to finding where a function crosses zero. At what temperature does a material reach its yield stress? At what frequency does a circuit's gain equal 1? At what angle does a projectile land at a specific distance? These are all root-finding problems.
@@ -88,7 +98,7 @@ Newton's method uses the derivative to make smarter guesses. At each step, it ap
 
 $$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
 
-When it works, it converges quadratically: each step roughly doubles the number of correct digits. Where bisection needs 34 steps for 10 digits, Newton's method typically needs 5 or 6.
+When it works, it converges quadratically: each step roughly doubles the number of correct digits. Where bisection needs 34 steps for 10 digits, Newton's method typically needs 5 or 6. Your calculator's square root button uses Newton's method internally, iterating $x_{n+1} = (x_n + S/x_n)/2$ until convergence.
 
 But Newton's method can fail. If the derivative is near zero, the step is enormous and the method shoots off to infinity. If the function is not smooth, it can cycle or diverge. And you need the derivative, which is not always available.
 
@@ -273,6 +283,8 @@ Interpolation passes through every data point. Curve fitting finds the best smoo
 Given a model $y = f(x; \mathbf{p})$ with parameters $\mathbf{p}$, find the parameters that minimize the sum of squared residuals:
 
 $$\text{minimize} \quad S = \sum_{i=1}^{N} \left[y_i - f(x_i; \mathbf{p})\right]^2$$
+
+If you have ever used Excel's LINEST function or added a trendline to a chart, you have used least squares fitting. It is the same algorithm.
 
 For a linear model $y = mx + b$, the least squares solution has a closed form:
 
