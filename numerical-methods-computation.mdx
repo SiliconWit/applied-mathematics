@@ -1,0 +1,488 @@
+---
+title: 'Numerical Methods: Math in Code'
+description: 'Computers do arithmetic, not calculus. Learn root finding, numerical integration, interpolation, curve fitting, and the Runge-Kutta ODE solver.'
+contributors: "sam-macharia"
+heroImage: "https://cdn.siliconwit.com/education/applied-mathematics/numerical-methods-computation.png"
+pubDate: 2026-03-08
+tags: ["numerical-methods", "root-finding", "integration", "interpolation", "curve-fitting", "RK4", "applied-math"]
+excerpt: "Bisection, Newton's method, trapezoidal integration, spline interpolation, least squares fitting, and Runge-Kutta ODE solving implemented from scratch in Python."
+---
+
+import AppliedMathematicsComments from '../../../../components/applied-mathematics/AppliedMathematicsComments.astro';
+import TawkWidget from '../../../../components/TawkWidget.astro';
+import UniversalContentContributors from '../../../../components/UniversalContentContributors.astro';
+import InArticleAd from '../../../../components/InArticleAd.astro';
+import Copyright from '../../../../components/Copyright.astro';
+import BionicText from '../../../../components/BionicText.astro';
+import TailwindWrapper from '../../../../components/TailwindWrapper.jsx';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card, CardGrid, Badge, Steps, LinkButton, FileTree } from '@astrojs/starlight/components';
+
+<UniversalContentContributors 
+  contributors={frontmatter.contributors}
+/>
+
+
+
+Computers do not understand limits, continuity, or infinitesimals. They understand addition, subtraction, multiplication, and division, performed on finite-precision numbers, very fast. Numerical methods are the bridge between continuous mathematics and discrete computation. Every time you call `numpy.linalg.solve` or `scipy.integrate.odeint`, a numerical method is doing the real work underneath. This lesson shows you what those methods are, how they work, and when they break.
+
+#NumericalMethods #ScientificComputing #Engineering
+
+## Root Finding: Where Does f(x) = 0?
+
+Many engineering problems reduce to finding where a function crosses zero. At what temperature does a material reach its yield stress? At what frequency does a circuit's gain equal 1? At what angle does a projectile land at a specific distance? These are all root-finding problems.
+
+### Bisection Method: Slow but Bulletproof
+
+The bisection method is the simplest root-finding algorithm. It works like a guessing game:
+
+<Steps>
+
+1. Start with an interval $[a, b]$ where $f(a)$ and $f(b)$ have opposite signs (so a root exists between them)
+
+2. Evaluate $f$ at the midpoint $c = (a + b) / 2$
+
+3. If $f(c)$ is close enough to zero, you are done
+
+4. If $f(a)$ and $f(c)$ have opposite signs, the root is in $[a, c]$; otherwise it is in $[c, b]$
+
+5. Repeat with the smaller interval
+
+</Steps>
+
+Each step cuts the interval in half. After $n$ steps, the interval is $1/2^n$ of the original. To get 10 decimal places of accuracy, you need about 34 steps (since $2^{34} \approx 10^{10}$). This is not fast, but it always works.
+
+```python
+import numpy as np
+
+def bisection(f, a, b, tol=1e-10, max_iter=100):
+    """Find root of f in [a, b] using bisection."""
+    if f(a) * f(b) > 0:
+        raise ValueError("f(a) and f(b) must have opposite signs")
+
+    for i in range(max_iter):
+        c = (a + b) / 2
+        fc = f(c)
+
+        if abs(fc) < tol or (b - a) / 2 < tol:
+            return c, i + 1
+
+        if f(a) * fc < 0:
+            b = c
+        else:
+            a = c
+
+    return c, max_iter
+
+# Example: find where x^3 - 2x - 5 = 0
+f = lambda x: x**3 - 2*x - 5
+root, iterations = bisection(f, 2, 3)
+print(f"Root: {root:.10f}")
+print(f"Iterations: {iterations}")
+print(f"Verification: f({root:.6f}) = {f(root):.2e}")
+```
+
+### Newton's Method: Fast but Fragile
+
+Newton's method uses the derivative to make smarter guesses. At each step, it approximates the function by its tangent line and finds where that line crosses zero:
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+
+When it works, it converges quadratically: each step roughly doubles the number of correct digits. Where bisection needs 34 steps for 10 digits, Newton's method typically needs 5 or 6.
+
+But Newton's method can fail. If the derivative is near zero, the step is enormous and the method shoots off to infinity. If the function is not smooth, it can cycle or diverge. And you need the derivative, which is not always available.
+
+```python
+import numpy as np
+
+def newton(f, df, x0, tol=1e-10, max_iter=50):
+    """Find root using Newton's method."""
+    x = x0
+    history = [x]
+
+    for i in range(max_iter):
+        fx = f(x)
+        dfx = df(x)
+
+        if abs(dfx) < 1e-15:
+            print("Warning: derivative near zero")
+            break
+
+        x = x - fx / dfx
+        history.append(x)
+
+        if abs(fx) < tol:
+            return x, i + 1, history
+
+    return x, max_iter, history
+
+# Same example: x^3 - 2x - 5 = 0
+f = lambda x: x**3 - 2*x - 5
+df = lambda x: 3*x**2 - 2
+
+root_n, iters_n, hist = newton(f, df, x0=2.0)
+print(f"Newton root: {root_n:.10f}")
+print(f"Iterations: {iters_n}")
+print(f"Convergence history: {[f'{x:.8f}' for x in hist]}")
+```
+
+### Choosing Between Bisection and Newton
+
+| Property | Bisection | Newton |
+|----------|-----------|--------|
+| Speed | Slow (linear) | Fast (quadratic) |
+| Reliability | Always converges | Can diverge |
+| Requirements | $f(a) \cdot f(b) < 0$ | $f'(x)$ needed |
+| Best use | Safety-critical, unknown functions | Well-behaved functions, speed needed |
+
+A practical strategy: start with a few bisection steps to get close to the root, then switch to Newton's method for final precision.
+
+## Numerical Integration: Computing Area Under Measured Data
+
+<InArticleAd />
+
+
+When you have a formula, you might find the antiderivative and integrate exactly. When you have measured data (sensor readings, experimental results), you integrate numerically.
+
+### Trapezoidal Rule
+
+Approximate the curve between consecutive points as straight lines and add up the trapezoid areas:
+
+$$\int_a^b f(x)\,dx \approx \sum_{i=0}^{N-1} \frac{f(x_i) + f(x_{i+1})}{2} \cdot \Delta x$$
+
+```text
+f(x)
+  |    .
+  |   /|\
+  |  / | \      .
+  | /  |  \    /|
+  |/   |   \  / |
+  +----+----+/--+--- x
+  a         c    b
+
+  Each trapezoid: area = (left height + right height) / 2 * width
+```
+
+### Simpson's Rule: Better for Smooth Functions
+
+Instead of straight lines between points, Simpson's rule fits parabolas through groups of three points:
+
+$$\int_a^b f(x)\,dx \approx \frac{\Delta x}{3}\sum_{i=0}^{N/2-1}\left[f(x_{2i}) + 4f(x_{2i+1}) + f(x_{2i+2})\right]$$
+
+Simpson's rule is exact for polynomials up to degree 3, while the trapezoidal rule is exact only for degree 1. For smooth functions, Simpson's rule converges much faster.
+
+```python
+import numpy as np
+
+def trapezoidal(f, a, b, N):
+    """Integrate f from a to b using N trapezoids."""
+    x = np.linspace(a, b, N + 1)
+    y = f(x)
+    dx = (b - a) / N
+    return dx * (0.5 * y[0] + np.sum(y[1:-1]) + 0.5 * y[-1])
+
+def simpsons(f, a, b, N):
+    """Integrate f from a to b using Simpson's rule (N must be even)."""
+    if N % 2 != 0:
+        N += 1
+    x = np.linspace(a, b, N + 1)
+    y = f(x)
+    dx = (b - a) / N
+    return dx / 3 * (y[0] + 4 * np.sum(y[1::2]) +
+                     2 * np.sum(y[2:-1:2]) + y[-1])
+
+# Test: integrate sin(x) from 0 to pi (exact = 2.0)
+f = np.sin
+exact = 2.0
+
+print(f"{'N':>6}  {'Trapezoidal':>14}  {'Simpson':>14}  "
+      f"{'Trap error':>12}  {'Simp error':>12}")
+print("-" * 65)
+for N in [4, 8, 16, 32, 64]:
+    trap = trapezoidal(f, 0, np.pi, N)
+    simp = simpsons(f, 0, np.pi, N)
+    print(f"{N:>6}  {trap:>14.10f}  {simp:>14.10f}  "
+          f"{abs(trap-exact):>12.2e}  {abs(simp-exact):>12.2e}")
+```
+
+Notice how Simpson's error drops much faster than the trapezoidal error as $N$ increases. With just 16 intervals, Simpson's rule gives 8 digits of accuracy for this function.
+
+## Interpolation: Estimating Between Measured Points
+
+<InArticleAd />
+
+
+You have calibration data at specific points but need values between them. Interpolation fills in the gaps.
+
+### Linear Interpolation
+
+The simplest approach: connect adjacent points with straight lines. Between points $(x_0, y_0)$ and $(x_1, y_1)$:
+
+$$y = y_0 + \frac{y_1 - y_0}{x_1 - x_0}(x - x_0)$$
+
+This is fast and adequate when data points are close together. It introduces slope discontinuities at the data points, which can cause problems if you need to differentiate the interpolated function.
+
+### Cubic Spline Interpolation
+
+Fit a separate cubic polynomial between each pair of points, with the constraint that the function, its first derivative, and its second derivative are all continuous at the data points. The result is a smooth curve that passes through every data point.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.interpolate import CubicSpline
+
+# Calibration data: thermistor resistance vs temperature
+temp_cal = np.array([0, 10, 20, 25, 30, 40, 50, 60, 80, 100])  # C
+res_cal = np.array([32650, 19900, 12490, 10000, 8057,
+                    5327, 3603, 2488, 1256, 680])  # ohms
+
+# Create interpolator
+cs = CubicSpline(temp_cal, res_cal)
+
+# Evaluate at fine points
+temp_fine = np.linspace(0, 100, 500)
+res_linear = np.interp(temp_fine, temp_cal, res_cal)
+res_spline = cs(temp_fine)
+
+plt.figure(figsize=(8, 5))
+plt.plot(temp_cal, res_cal, 'ko', markersize=8, label='Calibration points')
+plt.plot(temp_fine, res_linear, 'b--', linewidth=1, label='Linear interp.')
+plt.plot(temp_fine, res_spline, 'r-', linewidth=2, label='Cubic spline')
+plt.xlabel('Temperature (C)')
+plt.ylabel('Resistance (ohms)')
+plt.title('Thermistor Calibration: Interpolation Methods')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+# Look up resistance at 35 C
+print(f"Resistance at 35 C (linear): {np.interp(35, temp_cal, res_cal):.0f} ohms")
+print(f"Resistance at 35 C (spline): {cs(35):.0f} ohms")
+```
+
+## Curve Fitting: Finding the Best Line Through Noisy Data
+
+<InArticleAd />
+
+
+Interpolation passes through every data point. Curve fitting finds the best smooth curve that approximates noisy data, without trying to hit every point exactly.
+
+### Least Squares: The Workhorse
+
+Given a model $y = f(x; \mathbf{p})$ with parameters $\mathbf{p}$, find the parameters that minimize the sum of squared residuals:
+
+$$\text{minimize} \quad S = \sum_{i=1}^{N} \left[y_i - f(x_i; \mathbf{p})\right]^2$$
+
+For a linear model $y = mx + b$, the least squares solution has a closed form:
+
+$$m = \frac{N\sum x_i y_i - \sum x_i \sum y_i}{N\sum x_i^2 - (\sum x_i)^2}, \quad b = \bar{y} - m\bar{x}$$
+
+### Python: Linear and Nonlinear Curve Fitting
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+
+# Generate noisy data from a known model: y = 2.5 * exp(-0.3 * x) + 0.5
+np.random.seed(42)
+x_data = np.linspace(0, 10, 30)
+y_true = 2.5 * np.exp(-0.3 * x_data) + 0.5
+y_data = y_true + 0.15 * np.random.randn(len(x_data))
+
+# Linear fit (for comparison)
+coeffs_linear = np.polyfit(x_data, y_data, 1)
+y_linear = np.polyval(coeffs_linear, x_data)
+
+# Exponential model fit
+def exp_model(x, a, b, c):
+    return a * np.exp(b * x) + c
+
+popt, pcov = curve_fit(exp_model, x_data, y_data, p0=[2, -0.5, 0.5])
+y_exp_fit = exp_model(x_data, *popt)
+
+# Compute R-squared for both
+ss_res_lin = np.sum((y_data - y_linear)**2)
+ss_res_exp = np.sum((y_data - y_exp_fit)**2)
+ss_tot = np.sum((y_data - np.mean(y_data))**2)
+
+r2_linear = 1 - ss_res_lin / ss_tot
+r2_exp = 1 - ss_res_exp / ss_tot
+
+plt.figure(figsize=(8, 5))
+plt.plot(x_data, y_data, 'ko', markersize=5, label='Noisy data')
+plt.plot(x_data, y_linear, 'b--', linewidth=1.5,
+         label=f'Linear fit (R2={r2_linear:.3f})')
+plt.plot(x_data, y_exp_fit, 'r-', linewidth=2,
+         label=f'Exponential fit (R2={r2_exp:.3f})')
+plt.plot(x_data, y_true, 'g:', linewidth=1, label='True model')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Curve Fitting: Linear vs Exponential Model')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+
+print(f"Fitted parameters: a={popt[0]:.3f}, b={popt[1]:.3f}, c={popt[2]:.3f}")
+print(f"True parameters:   a=2.500, b=-0.300, c=0.500")
+```
+
+## Runge-Kutta (RK4): The Standard ODE Solver
+
+<InArticleAd />
+
+
+Euler's method is simple but inaccurate. The fourth-order Runge-Kutta method (RK4) is the workhorse of ODE solving: it evaluates the derivative four times per step to get a much better estimate of where the solution goes next.
+
+For $\frac{dy}{dt} = f(t, y)$:
+
+$$k_1 = f(t_n, y_n)$$
+$$k_2 = f\left(t_n + \frac{h}{2}, y_n + \frac{h}{2}k_1\right)$$
+$$k_3 = f\left(t_n + \frac{h}{2}, y_n + \frac{h}{2}k_2\right)$$
+$$k_4 = f(t_n + h, y_n + hk_3)$$
+$$y_{n+1} = y_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)$$
+
+The four $k$ values sample the slope at the beginning, twice at the midpoint (using different estimates), and at the end. The weighted average gives fourth-order accuracy: halving the step size reduces error by a factor of 16.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def rk4_step(f, t, y, h):
+    """Single RK4 step for dy/dt = f(t, y)."""
+    k1 = f(t, y)
+    k2 = f(t + h/2, y + h/2 * k1)
+    k3 = f(t + h/2, y + h/2 * k2)
+    k4 = f(t + h, y + h * k3)
+    return y + h/6 * (k1 + 2*k2 + 2*k3 + k4)
+
+def solve_ode(f, y0, t_span, h):
+    """Solve ODE using RK4."""
+    t = np.arange(t_span[0], t_span[1] + h, h)
+    y = np.zeros((len(t), len(np.atleast_1d(y0))))
+    y[0] = np.atleast_1d(y0)
+    for i in range(len(t) - 1):
+        y[i+1] = rk4_step(f, t[i], y[i], h)
+    return t, y
+
+# Solve spring-mass system: underdamped oscillation
+# State: [position, velocity]
+m, k_spring, b = 1.0, 10.0, 0.5
+
+def spring_mass(t, state):
+    x, v = state
+    dxdt = v
+    dvdt = (-b * v - k_spring * x) / m
+    return np.array([dxdt, dvdt])
+
+# Compare Euler and RK4 with the same step size
+h = 0.1
+t_span = (0, 15)
+
+# RK4
+t_rk4, y_rk4 = solve_ode(spring_mass, [1.0, 0.0], t_span, h)
+
+# Euler
+t_euler = np.arange(t_span[0], t_span[1] + h, h)
+y_euler = np.zeros((len(t_euler), 2))
+y_euler[0] = [1.0, 0.0]
+for i in range(len(t_euler) - 1):
+    dy = spring_mass(t_euler[i], y_euler[i])
+    y_euler[i+1] = y_euler[i] + h * dy
+
+# Exact solution for comparison
+omega_n = np.sqrt(k_spring / m)
+zeta = b / (2 * np.sqrt(k_spring * m))
+omega_d = omega_n * np.sqrt(1 - zeta**2)
+t_exact = np.linspace(0, 15, 1000)
+x_exact = np.exp(-zeta * omega_n * t_exact) * np.cos(omega_d * t_exact)
+
+plt.figure(figsize=(10, 5))
+plt.plot(t_exact, x_exact, 'k-', linewidth=2, label='Exact')
+plt.plot(t_euler, y_euler[:, 0], 'b--', linewidth=1, label=f'Euler (h={h})')
+plt.plot(t_rk4, y_rk4[:, 0], 'r-', linewidth=1.5, label=f'RK4 (h={h})')
+plt.xlabel('Time (s)')
+plt.ylabel('Position (m)')
+plt.title('ODE Solvers: Euler vs RK4 (same step size)')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+Notice that with the same step size, RK4 tracks the exact solution closely while Euler drifts. RK4 does four function evaluations per step, but you can use a step size roughly 10 times larger for the same accuracy, making it faster overall.
+
+## Floating-Point Gotchas
+
+<InArticleAd />
+
+
+Computers represent real numbers in floating point, which has finite precision. This creates subtle but important pitfalls.
+
+### Why 0.1 + 0.2 Is Not 0.3
+
+The number 0.1 has no exact representation in binary floating point, just as 1/3 has no exact representation in decimal. The computer stores the closest representable value:
+
+```python
+print(f"0.1 + 0.2 = {0.1 + 0.2}")
+print(f"0.1 + 0.2 == 0.3? {0.1 + 0.2 == 0.3}")
+print(f"Difference: {0.1 + 0.2 - 0.3:.2e}")
+
+# The right way to compare floats
+import math
+print(f"math.isclose: {math.isclose(0.1 + 0.2, 0.3)}")
+```
+
+### Catastrophic Cancellation
+
+Subtracting two nearly equal numbers destroys precision. If $a = 1.000000001$ and $b = 1.000000000$, the difference $a - b = 0.000000001$ has only 1 significant digit, even though $a$ and $b$ each had 10.
+
+This is why numerical differentiation ($f'(x) \approx [f(x+h) - f(x)]/h$) cannot use arbitrarily small $h$. Too large and the approximation is poor. Too small and cancellation destroys the result. There is an optimal $h \approx \sqrt{\epsilon} \cdot |x|$, where $\epsilon \approx 10^{-16}$ is machine epsilon for 64-bit floats.
+
+### When Integer Math Is Better on MCUs
+
+On a microcontroller without a floating-point unit, floating-point operations are emulated in software and can be 10 to 100 times slower than integer operations. For real-time control loops and sensor processing, **fixed-point arithmetic** (scaled integers) is often the right choice:
+
+```python
+# Floating-point temperature calculation
+temperature_float = adc_reading * 3.3 / 4096 * 100  # in degrees C
+
+# Fixed-point equivalent (all integer math, 10x precision)
+# Scale factor: multiply by 1000 to keep 3 decimal places
+temperature_fixed = adc_reading * 3300 // 4096 * 100 // 1000
+```
+
+The fixed-point version uses only integer multiplication and division, runs on any processor without a floating-point unit, and introduces no rounding error beyond the final truncation.
+
+## Exercises
+
+<InArticleAd />
+
+
+1. **Root finding.** Use both bisection and Newton's method to find the root of $f(x) = \cos(x) - x$ (the point where $y = \cos(x)$ intersects $y = x$). Compare the number of iterations each method requires for 10-digit accuracy.
+
+2. **Integration accuracy.** Integrate $\int_0^1 e^{-x^2} dx$ using the trapezoidal rule and Simpson's rule with $N = 4, 8, 16, 32, 64$. Plot the error vs. $N$ on a log-log scale. What is the convergence rate of each method?
+
+3. **Interpolation vs. curve fitting.** Generate 20 noisy data points from $y = \sin(x)$ on $[0, 2\pi]$. Compare cubic spline interpolation (passes through all points) with a least squares fit to $y = a\sin(bx + c) + d$. Which gives a better approximation of the true function at points between the data?
+
+4. **RK4 vs. Euler.** Solve the pendulum equation $\ddot\theta + \sin\theta = 0$ (note: $\sin\theta$, not $\theta$) with initial angle $\theta_0 = 0.5$ radians using both Euler and RK4. Use step sizes $h = 0.1, 0.05, 0.01$. Which method conserves energy better?
+
+5. **Floating-point experiment.** Write a program that computes $(10^{20} + 1) - 10^{20}$ in 32-bit and 64-bit floating point. What answers do you get? Explain why.
+
+## References
+
+<InArticleAd />
+
+
+- Press, W. H. et al. (2007). *Numerical Recipes: The Art of Scientific Computing*. Cambridge University Press. The standard reference.
+- Burden, R. L. and Faires, J. D. (2010). *Numerical Analysis*. Cengage.
+- Goldberg, D. (1991). *What Every Computer Scientist Should Know About Floating-Point Arithmetic*. ACM Computing Surveys. Free online: [docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html](https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html)
+
+
+
+<InArticleAd />
+<AppliedMathematicsComments />
+<TawkWidget />
+<Copyright />

@@ -14,22 +14,36 @@ sidebar:
 
 **Read this course at:** [https://siliconwit.com/education/applied-mathematics/](https://siliconwit.com/education/applied-mathematics/)
 
-A foundation course covering mathematical methods for engineering problem-solving and scientific analysis. Topics include linear algebra, computational methods, and the art of building useful mathematical models from real-world systems.
+Nine lessons covering the mathematics engineers use most often: modeling, calculus, linear algebra, complex numbers, probability, differential equations, Fourier analysis, numerical methods, and feedback control. Every topic starts with a real problem, introduces the math as the tool to solve it, and includes Python code where it helps.
 
 ## Lessons
 
 | # | Title |
 |---|-------|
-| 1 | Linear Algebra in Applied Mathematics |
-| 2 | The Art of Simplification: Spherical Cows and Model Building |
+| 1 | Spherical Cows and the Art of Model Building |
+| 2 | Calculus for Engineers |
+| 3 | Linear Algebra: Vectors, Matrices, and Transforms |
+| 4 | Complex Numbers and Phasors |
+| 5 | Probability, Statistics, and Noise |
+| 6 | Differential Equations and Real Systems |
+| 7 | Fourier Analysis and the Frequency Domain |
+| 8 | Numerical Methods: Math in Code |
+| 9 | Feedback and Control Systems |
 
 ## File Structure
 
 ```
 applied-mathematics/
 ├── index.mdx
-├── linear-algebra.mdx
-├── spherical-cows-engineering-model-building.mdx
+├── spherical-cows-model-building.mdx
+├── calculus-for-engineers.mdx
+├── linear-algebra-vectors-matrices.mdx
+├── complex-numbers-and-phasors.mdx
+├── probability-statistics-noise.mdx
+├── differential-equations-real-systems.mdx
+├── fourier-analysis-frequency-domain.mdx
+├── numerical-methods-computation.mdx
+├── feedback-control-systems.mdx
 └── README.md
 ```
 
@@ -44,7 +58,7 @@ applied-mathematics/
 ## Content Standards
 
 - All lesson files use `.mdx` format
-- `<BionicText>` may be used in later content sections but not in lesson intro paragraphs
+- Do not use `<BionicText>` in this course
 - Code blocks should include a title attribute:
   ````mdx
   ```python title="matrix_operations.py"
@@ -52,8 +66,9 @@ applied-mathematics/
   A = np.array([[1, 2], [3, 4]])
   ```
   ````
+- Use ASCII diagrams in `text` code blocks where they help visualize circuits, signals, or systems
 - Use Starlight components (`<Tabs>`, `<TabItem>`, `<Steps>`, `<Card>`) where appropriate
-- Keep paragraphs concise and focused on practical application
+- Every formula should be preceded by intuition (explain what it means before showing the equation)
 - Include working Python examples that readers can run directly
 - Mathematical notation uses LaTeX in MDX
 

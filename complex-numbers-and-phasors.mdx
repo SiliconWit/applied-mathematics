@@ -1,0 +1,453 @@
+---
+title: 'Complex Numbers and Phasors'
+description: 'Complex numbers describe rotation, not imaginary things. Euler formula, phasors, impedance, and AC circuit analysis.'
+contributors: "sam-macharia"
+heroImage: "https://cdn.siliconwit.com/education/applied-mathematics/complex-numbers-and-phasors.png"
+pubDate: 2026-03-04
+tags: ["complex-numbers", "phasors", "euler-formula", "impedance", "ac-circuits", "applied-math"]
+excerpt: "Complex numbers and phasors explained through physical intuition: rotation, Euler's formula, impedance, and RC filter analysis with Python."
+---
+
+import AppliedMathematicsComments from '../../../../components/applied-mathematics/AppliedMathematicsComments.astro';
+import TawkWidget from '../../../../components/TawkWidget.astro';
+import UniversalContentContributors from '../../../../components/UniversalContentContributors.astro';
+import InArticleAd from '../../../../components/InArticleAd.astro';
+import Copyright from '../../../../components/Copyright.astro';
+import BionicText from '../../../../components/BionicText.astro';
+import TailwindWrapper from '../../../../components/TailwindWrapper.jsx';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card, CardGrid, Badge, Steps, LinkButton, FileTree } from '@astrojs/starlight/components';
+
+<UniversalContentContributors 
+  contributors={frontmatter.contributors}
+/>
+
+
+
+"Imaginary" is a terrible name. It was coined in the 17th century as an insult, and we have been stuck with it ever since. There is nothing imaginary about these numbers. They describe rotation. Once you see that, the mystery evaporates and one of the most powerful tools in engineering opens up.
+
+#ComplexNumbers #Phasors #Engineering
+
+## The Problem with "Imaginary"
+
+The number $i$ (or $j$ in engineering, to avoid confusion with current) is defined by:
+
+$$j^2 = -1$$
+
+If you think of this as "the square root of negative one," it sounds absurd. What number, multiplied by itself, gives a negative result? No real number does. That is why mathematicians called these numbers "imaginary" and moved on.
+
+But here is a better way to think about it. Multiplying by $j$ is a 90-degree rotation. Start with the number 1 on the real number line. Multiply by $j$ and you get $j$, which is one step up on the imaginary axis. Multiply by $j$ again and you get $j^2 = -1$, which is back on the real axis but pointing the other direction. You have rotated 180 degrees in two steps of 90 degrees each.
+
+```text
+           j (imaginary axis)
+           |
+           | j
+           |
+   -1 -----+------ 1    (real axis)
+           |
+           | -j
+           |
+```
+
+Multiplying by $j$ rotates a number 90 degrees counterclockwise on this plane. That is all it does. That is why $j^2 = -1$: two 90-degree rotations make a 180-degree rotation, which is the same as negation.
+
+## The Complex Plane
+
+<InArticleAd />
+
+
+A complex number $z = a + jb$ is a point in a 2D plane, where $a$ is the horizontal coordinate (real part) and $b$ is the vertical coordinate (imaginary part).
+
+```text
+        Im
+         |
+    b ...+.........* z = a + jb
+         |        /|
+         |       / |
+         |    r /  |
+         |     /   |
+         |    / θ  |
+         |   /     |
+    -----+--/------+------ Re
+         |         a
+```
+
+The same point can be described in polar form:
+
+$$z = r(\cos\theta + j\sin\theta) = r \, e^{j\theta}$$
+
+where:
+- $r = |z| = \sqrt{a^2 + b^2}$ is the magnitude (distance from the origin)
+- $\theta = \arctan(b/a)$ is the phase angle
+
+This should remind you of vectors. A complex number IS a 2D vector, just written in a notation that makes multiplication and rotation trivially easy.
+
+### Why Two Representations?
+
+The rectangular form $z = a + jb$ is best for addition. The polar form $z = r \, e^{j\theta}$ is best for multiplication.
+
+**Addition (rectangular):**
+$$(3 + 2j) + (1 + 4j) = 4 + 6j$$
+
+Just add the components, exactly like vector addition.
+
+**Multiplication (polar):**
+$$r_1 e^{j\theta_1} \cdot r_2 e^{j\theta_2} = r_1 r_2 \, e^{j(\theta_1 + \theta_2)}$$
+
+Multiply the magnitudes, add the angles. Multiplication in the complex plane is rotation and scaling. This is the key insight that makes phasors work.
+
+## Euler's Formula
+
+<InArticleAd />
+
+
+The bridge between trigonometry and complex exponentials is Euler's formula:
+
+$$e^{j\theta} = \cos\theta + j\sin\theta$$
+
+This single equation connects three seemingly different branches of mathematics: exponentials, trigonometry, and complex numbers. It is, arguably, the most important formula in engineering mathematics.
+
+### Why It Works (Intuition)
+
+Consider the Taylor series for $e^x$, $\cos x$, and $\sin x$:
+
+$$e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots$$
+
+$$\cos x = 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \cdots$$
+
+$$\sin x = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \cdots$$
+
+If you substitute $x = j\theta$ into the exponential series and group real and imaginary terms, you get exactly $\cos\theta + j\sin\theta$. The even powers of $j$ contribute to the cosine (they are real), and the odd powers contribute to the sine (they are imaginary). It is not magic. It is algebra.
+
+### Euler's Identity
+
+Setting $\theta = \pi$ gives the famous identity:
+
+$$e^{j\pi} + 1 = 0$$
+
+Five fundamental constants ($e$, $j$, $\pi$, 1, 0) in one equation. Beautiful, but what matters for engineering is the practical consequence: sinusoidal signals can be represented as complex exponentials, and complex exponentials are far easier to work with.
+
+## Phasors: Sinusoids as Rotating Vectors
+
+<InArticleAd />
+
+
+Here is the payoff. Consider a sinusoidal voltage:
+
+$$v(t) = V_m \cos(\omega t + \phi)$$
+
+Using Euler's formula, we can write this as the real part of a complex exponential:
+
+$$v(t) = \text{Re}\left[ V_m \, e^{j(\omega t + \phi)} \right] = \text{Re}\left[ V_m e^{j\phi} \cdot e^{j\omega t} \right]$$
+
+The factor $e^{j\omega t}$ is the same for all signals at the same frequency. So we strip it away and keep only the part that differs from signal to signal:
+
+$$\tilde{V} = V_m \, e^{j\phi}$$
+
+This is the **phasor** representation of the voltage. It captures the amplitude $V_m$ and the phase $\phi$ in a single complex number, dropping the time dependence because it is the same for everything.
+
+```text
+        Im
+         |
+         |   * V_m e^(jφ)
+         |  /
+         | / V_m
+         |/  φ
+    -----+------------- Re
+         |
+
+    The phasor is a snapshot of the rotating vector.
+    At any time t, the actual voltage is the real part
+    of this vector after it has rotated by ωt more.
+```
+
+### Why Phasors Are So Powerful
+
+Without phasors, analyzing an AC circuit means solving differential equations. With phasors, the same analysis becomes algebra. Differentiation becomes multiplication by $j\omega$. Integration becomes division by $j\omega$. The entire calculus disappears, replaced by complex arithmetic.
+
+<CardGrid>
+  <Card title="Time Domain (hard)" icon="warning">
+    Differential equation:
+
+    $$v(t) = L \frac{di}{dt}$$
+
+    Requires solving an ODE for every circuit.
+  </Card>
+
+  <Card title="Phasor Domain (easy)" icon="approve-check">
+    Algebraic equation:
+
+    $$\tilde{V} = j\omega L \, \tilde{I}$$
+
+    Just multiply complex numbers.
+  </Card>
+</CardGrid>
+
+## Impedance: Resistance for AC Circuits
+
+<InArticleAd />
+
+
+In DC circuits, Ohm's law is $V = IR$. In AC circuits with phasors, the equivalent is:
+
+$$\tilde{V} = Z \, \tilde{I}$$
+
+where $Z$ is the **impedance**, a complex number that generalizes resistance to include the effects of capacitors and inductors.
+
+### The Three Building Blocks
+
+<Tabs>
+  <TabItem label="Resistor">
+    $$Z_R = R$$
+
+    The impedance of a resistor is just its resistance. It is purely real. Voltage and current are in phase (no phase shift).
+  </TabItem>
+
+  <TabItem label="Inductor">
+    $$Z_L = j\omega L$$
+
+    The impedance of an inductor is purely imaginary and proportional to frequency. At high frequencies, an inductor acts like an open circuit. The $j$ means the voltage leads the current by 90 degrees.
+  </TabItem>
+
+  <TabItem label="Capacitor">
+    $$Z_C = \frac{1}{j\omega C} = -\frac{j}{\omega C}$$
+
+    The impedance of a capacitor is purely imaginary and inversely proportional to frequency. At high frequencies, a capacitor acts like a short circuit. The $-j$ means the voltage lags the current by 90 degrees.
+  </TabItem>
+</Tabs>
+
+### Combining Impedances
+
+Impedances combine exactly like resistances:
+- **Series:** $Z_{\text{total}} = Z_1 + Z_2 + \cdots$
+- **Parallel:** $\frac{1}{Z_{\text{total}}} = \frac{1}{Z_1} + \frac{1}{Z_2} + \cdots$
+
+This is why phasors were invented. You can analyze any AC circuit using the same rules you learned for DC circuits, just with complex numbers instead of real ones.
+
+## Worked Example: RC Low-Pass Filter
+
+<InArticleAd />
+
+
+Let us analyze the most common filter in electronics: the RC low-pass filter.
+
+```text
+        R
+  Vin o---/\/\/---+--- o Vout
+                  |
+                 === C
+                  |
+  GND o-----------+--- o GND
+```
+
+We want to find the ratio $\tilde{V}_{\text{out}} / \tilde{V}_{\text{in}}$ as a function of frequency.
+
+### Step 1: Write the Impedances
+
+The resistor and capacitor are in series, forming a voltage divider. The output is taken across the capacitor.
+
+$$Z_R = R, \qquad Z_C = \frac{1}{j\omega C}$$
+
+### Step 2: Voltage Divider
+
+$$\frac{\tilde{V}_{\text{out}}}{\tilde{V}_{\text{in}}} = \frac{Z_C}{Z_R + Z_C} = \frac{1/(j\omega C)}{R + 1/(j\omega C)}$$
+
+Multiply numerator and denominator by $j\omega C$:
+
+$$H(j\omega) = \frac{1}{1 + j\omega RC}$$
+
+### Step 3: Magnitude and Phase
+
+The magnitude of the transfer function (gain) is:
+
+$$|H(j\omega)| = \frac{1}{\sqrt{1 + (\omega RC)^2}}$$
+
+The phase is:
+
+$$\angle H(j\omega) = -\arctan(\omega RC)$$
+
+### Step 4: The Cutoff Frequency
+
+The cutoff frequency is defined as the frequency where the output power drops to half (or the voltage drops to $1/\sqrt{2} \approx 0.707$ of the input):
+
+$$|H(j\omega_c)| = \frac{1}{\sqrt{2}}$$
+
+This happens when $\omega_c RC = 1$, which gives:
+
+$$f_c = \frac{1}{2\pi RC}$$
+
+For $R = 10 \, \text{k}\Omega$ and $C = 10 \, \text{nF}$:
+
+$$f_c = \frac{1}{2\pi \times 10{,}000 \times 10 \times 10^{-9}} = \frac{1}{2\pi \times 10^{-4}} \approx 1592 \, \text{Hz}$$
+
+Signals below 1592 Hz pass through mostly unchanged. Signals above 1592 Hz are attenuated. That is why it is called a low-pass filter.
+
+## Python: Complex Numbers and Phasors
+
+<InArticleAd />
+
+
+Python has native support for complex numbers, and NumPy extends this to arrays.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# --- Complex number basics ---
+z1 = 3 + 4j
+z2 = 1 - 2j
+
+print(f"z1 = {z1}")
+print(f"z2 = {z2}")
+print(f"z1 + z2 = {z1 + z2}")
+print(f"z1 * z2 = {z1 * z2}")
+print(f"|z1| = {abs(z1):.3f}")
+print(f"angle(z1) = {np.angle(z1, deg=True):.1f} degrees")
+print(f"Real part: {z1.real}, Imaginary part: {z1.imag}")
+
+# --- Euler's formula verification ---
+theta = np.pi / 4  # 45 degrees
+euler = np.exp(1j * theta)
+trig = np.cos(theta) + 1j * np.sin(theta)
+print(f"\ne^(j*pi/4) = {euler:.4f}")
+print(f"cos + j*sin = {trig:.4f}")
+print(f"Difference: {abs(euler - trig):.2e}")
+```
+
+### RC Filter Frequency Response
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Component values
+R = 10e3      # 10 kohm
+C = 10e-9     # 10 nF
+
+# Cutoff frequency
+f_c = 1 / (2 * np.pi * R * C)
+print(f"Cutoff frequency: {f_c:.1f} Hz")
+
+# Frequency sweep (logarithmic)
+f = np.logspace(1, 6, 500)   # 10 Hz to 1 MHz
+omega = 2 * np.pi * f
+
+# Transfer function H(jw) = 1 / (1 + jwRC)
+H = 1 / (1 + 1j * omega * R * C)
+
+# Magnitude in dB and phase in degrees
+magnitude_dB = 20 * np.log10(np.abs(H))
+phase_deg = np.angle(H, deg=True)
+
+# Bode plot
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(9, 7), sharex=True)
+
+ax1.semilogx(f, magnitude_dB, 'b-', linewidth=2)
+ax1.axhline(y=-3, color='r', linestyle='--', alpha=0.7, label='-3 dB')
+ax1.axvline(x=f_c, color='gray', linestyle=':', alpha=0.7, label=f'fc = {f_c:.0f} Hz')
+ax1.set_ylabel('Magnitude (dB)')
+ax1.set_title('RC Low-Pass Filter Bode Plot')
+ax1.legend()
+ax1.grid(True, which='both', alpha=0.3)
+ax1.set_ylim(-40, 5)
+
+ax2.semilogx(f, phase_deg, 'b-', linewidth=2)
+ax2.axhline(y=-45, color='r', linestyle='--', alpha=0.7, label='-45 deg at fc')
+ax2.axvline(x=f_c, color='gray', linestyle=':', alpha=0.7)
+ax2.set_ylabel('Phase (degrees)')
+ax2.set_xlabel('Frequency (Hz)')
+ax2.legend()
+ax2.grid(True, which='both', alpha=0.3)
+ax2.set_ylim(-100, 10)
+
+plt.tight_layout()
+plt.show()
+```
+
+### Plotting Phasors
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Three phasors: voltage source, resistor voltage, capacitor voltage
+# At the cutoff frequency (wRC = 1)
+V_in = 1 + 0j                          # Reference: 1V at 0 degrees
+H_c = 1 / (1 + 1j)                     # Capacitor voltage / V_in at wRC=1
+V_C = V_in * H_c                       # Capacitor voltage phasor
+V_R = V_in - V_C                       # Resistor voltage phasor
+
+phasors = {'V_in': V_in, 'V_R': V_R, 'V_C': V_C}
+colors = {'V_in': 'blue', 'V_R': 'red', 'V_C': 'green'}
+
+fig, ax = plt.subplots(figsize=(7, 7))
+for name, z in phasors.items():
+    ax.annotate('', xy=(z.real, z.imag), xytext=(0, 0),
+                arrowprops=dict(arrowstyle='->', color=colors[name], lw=2))
+    ax.text(z.real * 1.1, z.imag * 1.1 + 0.03,
+            f'{name} = {abs(z):.3f} at {np.angle(z, deg=True):.1f} deg',
+            color=colors[name], fontsize=10)
+
+ax.set_xlim(-0.2, 1.2)
+ax.set_ylim(-0.8, 0.4)
+ax.set_aspect('equal')
+ax.grid(True, alpha=0.3)
+ax.axhline(y=0, color='k', linewidth=0.5)
+ax.axvline(x=0, color='k', linewidth=0.5)
+ax.set_xlabel('Real')
+ax.set_ylabel('Imaginary')
+ax.set_title('Phasor Diagram at Cutoff Frequency (wRC = 1)')
+plt.tight_layout()
+plt.show()
+```
+
+## Common Pitfalls
+
+<InArticleAd />
+
+
+<CardGrid>
+  <Card title="j vs i" icon="information">
+    Electrical engineers use $j$ for the imaginary unit because $i$ is already taken (current). Python uses `1j`. MATLAB uses both `i` and `j`. Be consistent in your notation and do not use $i$ for current and $\sqrt{-1}$ in the same equation.
+  </Card>
+
+  <Card title="Degrees vs Radians" icon="warning">
+    NumPy's `np.angle()` returns radians by default. Use `np.angle(z, deg=True)` for degrees. Trigonometric functions (`np.sin`, `np.cos`) always expect radians. Mixing these up is one of the most common bugs in engineering code.
+  </Card>
+
+  <Card title="Conjugate Symmetry" icon="information">
+    For real-valued signals, the Fourier transform has conjugate symmetry: $X(-f) = X^*(f)$. This means the negative-frequency content is redundant. You will encounter this in Lesson 6 on Fourier analysis.
+  </Card>
+</CardGrid>
+
+## Summary
+
+<InArticleAd />
+
+
+Complex numbers are not abstract curiosities. They are the natural language for describing anything that rotates or oscillates. Here is the chain of ideas:
+
+<Steps>
+
+1. **Complex numbers are 2D numbers.** They have a real part and an imaginary part, forming a point (or arrow) in the complex plane.
+
+2. **Multiplication is rotation and scaling.** Multiplying by $e^{j\theta}$ rotates by angle $\theta$. Multiplying by $r$ scales by $r$.
+
+3. **Euler's formula connects exponentials and trigonometry.** $e^{j\theta} = \cos\theta + j\sin\theta$. This lets you represent sinusoidal signals as complex exponentials.
+
+4. **Phasors strip away time.** A phasor captures the amplitude and phase of a sinusoidal signal, letting you analyze AC circuits with algebra instead of differential equations.
+
+5. **Impedance generalizes resistance.** Resistors, inductors, and capacitors each have a complex impedance. Circuit analysis proceeds with the same rules as DC, just with complex arithmetic.
+
+6. **The cutoff frequency falls out naturally.** For an RC filter, setting $|H| = 1/\sqrt{2}$ gives $f_c = 1/(2\pi RC)$, the boundary between passed and attenuated frequencies.
+
+</Steps>
+
+In the next lesson on differential equations, you will see complex numbers appear again: the solutions to second-order ODEs involve complex exponentials, and the imaginary part of the eigenvalue gives the oscillation frequency while the real part gives the decay rate.
+
+
+
+<InArticleAd />
+<AppliedMathematicsComments />
+<TawkWidget />
+<Copyright />

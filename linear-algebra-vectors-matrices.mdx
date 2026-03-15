@@ -1,0 +1,387 @@
+---
+title: 'Linear Algebra: Vectors, Matrices, and Transforms'
+description: 'The language of engineering: how vectors and matrices describe forces, rotations, and systems of equations.'
+contributors: "sam-macharia"
+heroImage: "https://cdn.siliconwit.com/education/applied-mathematics/linear-algebra-vectors-matrices.png"
+pubDate: 2026-03-03
+tags: ["linear-algebra", "vectors", "matrices", "transforms", "applied-math", "engineering"]
+excerpt: "Vectors, matrices, and transforms explained through physical intuition: forces, rotations, and the systems of equations that describe real engineering problems."
+---
+
+import AppliedMathematicsComments from '../../../../components/applied-mathematics/AppliedMathematicsComments.astro';
+import TawkWidget from '../../../../components/TawkWidget.astro';
+import UniversalContentContributors from '../../../../components/UniversalContentContributors.astro';
+import InArticleAd from '../../../../components/InArticleAd.astro';
+import Copyright from '../../../../components/Copyright.astro';
+import BionicText from '../../../../components/BionicText.astro';
+import TailwindWrapper from '../../../../components/TailwindWrapper.jsx';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card, CardGrid, Badge, Steps, LinkButton, FileTree } from '@astrojs/starlight/components';
+
+<UniversalContentContributors 
+  contributors={frontmatter.contributors}
+/>
+
+
+
+Linear algebra is the most useful branch of mathematics you will ever learn. That is not an exaggeration. Every time an engineer analyzes a circuit, a roboticist programs a joint, a graphics programmer renders a scene, or a data scientist trains a model, they are using linear algebra. It is the common language of applied mathematics, and once you speak it, entire fields open up.
+
+#LinearAlgebra #Engineering #AppliedMath
+
+## Vectors: Arrows with Meaning
+
+A vector is a quantity that has both magnitude and direction. Forces, velocities, electric fields, and displacements are all vectors. Think of a vector in 2D as an instruction: "go 3 steps east and 4 steps north." We write this as:
+
+$$\mathbf{v} = \begin{bmatrix} 3 \\ 4 \end{bmatrix}$$
+
+The magnitude (length) is $|\mathbf{v}| = \sqrt{3^2 + 4^2} = 5$, and the direction is $\theta = \arctan(4/3) \approx 53°$ from east.
+
+### Vector Addition: Combining Effects
+
+When two forces act on an object, the result is their vector sum. If a wind pushes a boat east at 3 m/s and a current pushes it north at 4 m/s, the boat moves northeast at 5 m/s.
+
+```text
+         4 |     /|
+           |    / |
+           |   /  | b = (0, 4)
+           |  /   |
+           | / a+b|
+           |/     |
+         0 +------+---
+           0   a=(3,0)   3
+
+     a + b = (3, 4), magnitude = 5
+```
+
+Algebraically, you just add the components:
+
+$$\mathbf{a} + \mathbf{b} = \begin{bmatrix} a_1 + b_1 \\ a_2 + b_2 \end{bmatrix}$$
+
+This is why vectors are so powerful: complex combinations of forces, velocities, or fields reduce to simple component-wise arithmetic.
+
+### The Dot Product: How Aligned Are Two Vectors?
+
+The dot product of two vectors $\mathbf{a}$ and $\mathbf{b}$ is:
+
+$$\mathbf{a} \cdot \mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3 = |\mathbf{a}||\mathbf{b}|\cos\theta$$
+
+The dot product measures how much two vectors point in the same direction.
+
+- If $\theta = 0°$ (parallel), $\cos\theta = 1$: maximum dot product.
+- If $\theta = 90°$ (perpendicular), $\cos\theta = 0$: zero dot product.
+- If $\theta = 180°$ (opposite), $\cos\theta = -1$: negative dot product.
+
+**Engineering use: Work.** When you push a box with force $\mathbf{F}$ through displacement $\mathbf{d}$, the work done is $W = \mathbf{F} \cdot \mathbf{d}$. Only the component of force along the direction of motion does work. Push at an angle, and you waste effort.
+
+**Engineering use: Projection.** The projection of vector $\mathbf{a}$ onto vector $\mathbf{b}$ is:
+
+$$\text{proj}_\mathbf{b} \mathbf{a} = \frac{\mathbf{a} \cdot \mathbf{b}}{|\mathbf{b}|^2} \mathbf{b}$$
+
+This is how you decompose a force into components along and perpendicular to a surface, which is the first step in most structural analysis problems.
+
+### The Cross Product: Perpendicular Results
+
+The cross product of two 3D vectors gives a new vector perpendicular to both inputs:
+
+$$\mathbf{a} \times \mathbf{b} = \begin{bmatrix} a_2 b_3 - a_3 b_2 \\ a_3 b_1 - a_1 b_3 \\ a_1 b_2 - a_2 b_1 \end{bmatrix}$$
+
+The magnitude is $|\mathbf{a} \times \mathbf{b}| = |\mathbf{a}||\mathbf{b}|\sin\theta$, which equals the area of the parallelogram formed by the two vectors.
+
+**Engineering use: Torque.** Torque is the cross product of the position vector and the force vector: $\boldsymbol{\tau} = \mathbf{r} \times \mathbf{F}$. The torque is perpendicular to both the lever arm and the force, which is why a wrench turns a bolt in the direction it does.
+
+**Engineering use: Surface normals.** In 3D graphics and finite element analysis, you find the normal to a surface by taking the cross product of two vectors that lie in that surface.
+
+## Matrices: Machines That Transform Vectors
+
+<InArticleAd />
+
+
+A matrix is not just a grid of numbers. A matrix is a machine that takes a vector as input and produces a new vector as output. When you multiply a matrix by a vector, you are applying a transformation: rotation, scaling, reflection, shearing, or projection.
+
+$$\mathbf{y} = A\mathbf{x}$$
+
+The matrix $A$ transforms the input vector $\mathbf{x}$ into the output vector $\mathbf{y}$.
+
+### What Matrices Do
+
+<Tabs>
+  <TabItem label="Scaling">
+    A diagonal matrix scales each component independently:
+
+    $$\begin{bmatrix} 2 & 0 \\ 0 & 3 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 2x \\ 3y \end{bmatrix}$$
+
+    This stretches the x-component by 2 and the y-component by 3. In engineering, this is how you apply different gains to different channels.
+  </TabItem>
+
+  <TabItem label="Rotation">
+    The 2D rotation matrix rotates a vector by angle $\theta$ counterclockwise:
+
+    $$R(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$$
+
+    This is used everywhere: robotics (joint rotations), computer graphics (camera orientation), and navigation (coordinate transforms between reference frames).
+  </TabItem>
+
+  <TabItem label="Reflection">
+    Reflection across the x-axis:
+
+    $$\begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} x \\ -y \end{bmatrix}$$
+
+    This flips the y-component. In signal processing, this is equivalent to inverting a signal.
+  </TabItem>
+
+  <TabItem label="Projection">
+    Projection onto the x-axis:
+
+    $$\begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} x \\ 0 \end{bmatrix}$$
+
+    This throws away the y-component, keeping only the x-component. Projections are lossy: information is destroyed, and the operation is not reversible.
+  </TabItem>
+</Tabs>
+
+### Worked Example: 2D Rotation
+
+Rotate the point $(3, 1)$ by 45 degrees counterclockwise.
+
+$$R(45°) = \begin{bmatrix} \cos 45° & -\sin 45° \\ \sin 45° & \cos 45° \end{bmatrix} = \begin{bmatrix} 0.707 & -0.707 \\ 0.707 & 0.707 \end{bmatrix}$$
+
+$$\begin{bmatrix} 0.707 & -0.707 \\ 0.707 & 0.707 \end{bmatrix} \begin{bmatrix} 3 \\ 1 \end{bmatrix} = \begin{bmatrix} 0.707 \times 3 + (-0.707) \times 1 \\ 0.707 \times 3 + 0.707 \times 1 \end{bmatrix} = \begin{bmatrix} 1.414 \\ 2.828 \end{bmatrix}$$
+
+The point has been rotated. Its distance from the origin is preserved ($\sqrt{3^2 + 1^2} = \sqrt{1.414^2 + 2.828^2} = \sqrt{10}$). Rotation matrices always preserve distances. That is a defining property.
+
+### Matrix Multiplication as Function Composition
+
+If matrix $A$ rotates by 30 degrees and matrix $B$ scales by 2, then $BA$ rotates by 30 degrees and then scales by 2. The combined operation is a single matrix, the product $BA$.
+
+$$\text{rotate then scale} = B \cdot A$$
+
+Note the order: $BA$ means "apply $A$ first, then $B$." Matrix multiplication is not commutative ($AB \neq BA$ in general), but it is associative. This is why matrix multiplication is defined the way it is. It is function composition.
+
+In robotics, this is how you chain joint transformations. Each joint has a rotation matrix, and the total transformation from base to end-effector is the product of all the individual matrices.
+
+## Systems of Linear Equations: Ax = b
+
+<InArticleAd />
+
+
+The most common use of linear algebra in engineering is solving systems of linear equations. Consider a circuit with two loops analyzed using Kirchhoff's voltage law:
+
+$$3I_1 + 2(I_1 - I_2) = 10$$
+$$2(I_2 - I_1) + 5I_2 = 0$$
+
+Rearranging:
+
+$$5I_1 - 2I_2 = 10$$
+$$-2I_1 + 7I_2 = 0$$
+
+In matrix form:
+
+$$\begin{bmatrix} 5 & -2 \\ -2 & 7 \end{bmatrix} \begin{bmatrix} I_1 \\ I_2 \end{bmatrix} = \begin{bmatrix} 10 \\ 0 \end{bmatrix}$$
+
+This is $A\mathbf{x} = \mathbf{b}$, where $A$ is the coefficient matrix, $\mathbf{x}$ is the unknown vector (currents), and $\mathbf{b}$ is the source vector (voltages).
+
+### Solving Ax = b
+
+If the matrix $A$ is invertible (its determinant is nonzero), the system has a unique solution:
+
+$$\mathbf{x} = A^{-1}\mathbf{b}$$
+
+For our circuit example:
+
+$$\det(A) = 5 \times 7 - (-2) \times (-2) = 35 - 4 = 31$$
+
+The determinant is nonzero, so a unique solution exists.
+
+$$A^{-1} = \frac{1}{31} \begin{bmatrix} 7 & 2 \\ 2 & 5 \end{bmatrix}$$
+
+$$\begin{bmatrix} I_1 \\ I_2 \end{bmatrix} = \frac{1}{31} \begin{bmatrix} 7 & 2 \\ 2 & 5 \end{bmatrix} \begin{bmatrix} 10 \\ 0 \end{bmatrix} = \frac{1}{31} \begin{bmatrix} 70 \\ 20 \end{bmatrix} = \begin{bmatrix} 2.258 \\ 0.645 \end{bmatrix}$$
+
+So $I_1 \approx 2.26 \, \text{A}$ and $I_2 \approx 0.65 \, \text{A}$.
+
+### When Does Ax = b Have a Solution?
+
+<CardGrid>
+  <Card title="det(A) != 0" icon="approve-check">
+    **Unique solution exists.** The matrix is invertible. The system has exactly one answer. This is the usual case in well-posed engineering problems.
+  </Card>
+
+  <Card title="det(A) = 0" icon="warning">
+    **No unique solution.** Either there are infinitely many solutions (the equations are redundant) or no solution (the equations are contradictory). Physically, this means your system is under-constrained or over-constrained.
+  </Card>
+</CardGrid>
+
+## Eigenvalues and Eigenvectors
+
+<InArticleAd />
+
+
+An eigenvector of a matrix $A$ is a special vector that, when transformed by $A$, only gets scaled (not rotated):
+
+$$A\mathbf{v} = \lambda \mathbf{v}$$
+
+The scalar $\lambda$ is the eigenvalue. The eigenvector $\mathbf{v}$ points in a direction that the transformation preserves.
+
+### Why Eigenvalues Matter
+
+Eigenvalues appear everywhere in engineering because they describe the natural behavior of systems:
+
+**Vibration modes.** A bridge, a guitar string, and an electronic circuit all have natural frequencies. These are the eigenvalues of the system's dynamic matrix. Each eigenvalue gives a frequency, and its eigenvector gives the shape of the vibration at that frequency.
+
+**Stability analysis.** A control system is stable if all eigenvalues of its state matrix have negative real parts. If any eigenvalue has a positive real part, the system is unstable and will blow up. This is the single most important test in control theory.
+
+**Principal stress directions.** In structural analysis, the eigenvalues of the stress tensor give the principal stresses, and the eigenvectors give the directions they act in. This tells you where a structure is most likely to fail.
+
+### Finding Eigenvalues
+
+Eigenvalues satisfy $\det(A - \lambda I) = 0$. For a 2x2 matrix:
+
+$$A = \begin{bmatrix} 4 & 1 \\ 2 & 3 \end{bmatrix}$$
+
+$$\det \begin{bmatrix} 4-\lambda & 1 \\ 2 & 3-\lambda \end{bmatrix} = (4-\lambda)(3-\lambda) - 2 = \lambda^2 - 7\lambda + 10 = 0$$
+
+$$(\lambda - 5)(\lambda - 2) = 0$$
+
+The eigenvalues are $\lambda_1 = 5$ and $\lambda_2 = 2$.
+
+For $\lambda_1 = 5$: $(A - 5I)\mathbf{v} = 0$ gives $-v_1 + v_2 = 0$, so $\mathbf{v}_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$.
+
+For $\lambda_2 = 2$: $(A - 2I)\mathbf{v} = 0$ gives $2v_1 + v_2 = 0$, so $\mathbf{v}_2 = \begin{bmatrix} 1 \\ -2 \end{bmatrix}$.
+
+## Python: NumPy for Linear Algebra
+
+<InArticleAd />
+
+
+NumPy makes all of this practical. Here is a complete example that covers the key operations.
+
+```python
+import numpy as np
+
+# --- Vectors ---
+a = np.array([3, 4])
+b = np.array([1, 2])
+
+print("Vector addition:", a + b)
+print("Dot product:", np.dot(a, b))
+print("Magnitude of a:", np.linalg.norm(a))
+
+# Cross product (3D)
+a3 = np.array([1, 0, 0])
+b3 = np.array([0, 1, 0])
+print("Cross product:", np.cross(a3, b3))
+
+# --- 2D Rotation ---
+theta = np.radians(45)
+R = np.array([
+    [np.cos(theta), -np.sin(theta)],
+    [np.sin(theta),  np.cos(theta)]
+])
+point = np.array([3, 1])
+rotated = R @ point
+print(f"\n({point[0]}, {point[1]}) rotated 45 degrees: ({rotated[0]:.3f}, {rotated[1]:.3f})")
+
+# --- Solving Ax = b (circuit example) ---
+A = np.array([
+    [5, -2],
+    [-2, 7]
+])
+b_vec = np.array([10, 0])
+x = np.linalg.solve(A, b_vec)
+print(f"\nCircuit currents: I1 = {x[0]:.3f} A, I2 = {x[1]:.3f} A")
+print(f"Determinant: {np.linalg.det(A):.1f}")
+
+# --- Eigenvalues ---
+M = np.array([
+    [4, 1],
+    [2, 3]
+])
+eigenvalues, eigenvectors = np.linalg.eig(M)
+print(f"\nEigenvalues: {eigenvalues}")
+print(f"Eigenvectors (columns):\n{eigenvectors}")
+
+# Verify: A @ v = lambda * v
+for i in range(len(eigenvalues)):
+    v = eigenvectors[:, i]
+    lam = eigenvalues[i]
+    Av = M @ v
+    lam_v = lam * v
+    print(f"  A @ v{i+1} = {Av}, lambda * v{i+1} = {lam_v}")
+```
+
+### A Note on np.linalg.solve vs. Inverse
+
+Always use `np.linalg.solve(A, b)` instead of `np.linalg.inv(A) @ b`. The solve function is faster, more numerically stable, and works even for large, poorly conditioned systems. Computing the inverse explicitly is almost never necessary in practice.
+
+## Application: Force Balance in a Truss
+
+<InArticleAd />
+
+
+Consider a simple truss with two members meeting at a pin joint, with an external load $\mathbf{F}$ applied:
+
+```text
+        P (pin joint)
+       /|\
+      / | \
+     /  |  \
+    / F |   \
+   /  (down) \
+  /     |     \
+ A------+------B
+   (ground supports)
+```
+
+The equilibrium condition at point P gives two equations (horizontal and vertical force balance):
+
+$$T_1 \cos\alpha + T_2 \cos\beta = 0 \quad \text{(horizontal)}$$
+$$T_1 \sin\alpha + T_2 \sin\beta = F \quad \text{(vertical)}$$
+
+In matrix form:
+
+$$\begin{bmatrix} \cos\alpha & \cos\beta \\ \sin\alpha & \sin\beta \end{bmatrix} \begin{bmatrix} T_1 \\ T_2 \end{bmatrix} = \begin{bmatrix} 0 \\ F \end{bmatrix}$$
+
+This is just $A\mathbf{x} = \mathbf{b}$ again. The same linear algebra that solves circuits also solves structural problems. That universality is the real power of the framework.
+
+```python
+import numpy as np
+
+# Truss with members at 60 and 120 degrees from horizontal
+alpha = np.radians(60)
+beta = np.radians(120)
+F = 1000  # Newtons (downward load)
+
+A = np.array([
+    [np.cos(alpha), np.cos(beta)],
+    [np.sin(alpha), np.sin(beta)]
+])
+b = np.array([0, F])
+
+T = np.linalg.solve(A, b)
+print(f"Member 1 tension: {T[0]:.1f} N")
+print(f"Member 2 tension: {T[1]:.1f} N")
+```
+
+## Summary
+
+<InArticleAd />
+
+
+Linear algebra gives you a unified framework for problems that might look very different on the surface.
+
+| Concept | What it means | Where it appears |
+|---|---|---|
+| Vector addition | Combining effects | Forces, velocities, fields |
+| Dot product | Alignment, projection | Work, signal correlation |
+| Cross product | Perpendicular result | Torque, surface normals |
+| Matrix-vector product | Transformation | Rotation, scaling, coordinate change |
+| Ax = b | System of equations | Circuit analysis, force balance |
+| Determinant | Invertibility test | Does a unique solution exist? |
+| Eigenvalues | Natural modes | Vibration, stability, principal stress |
+
+The next lesson on complex numbers and phasors will use vectors in the complex plane, building directly on the vector intuition developed here.
+
+
+
+<InArticleAd />
+<AppliedMathematicsComments />
+<TawkWidget />
+<Copyright />
