@@ -1,7 +1,7 @@
 ---
 title: 'Probability, Statistics, and Noise'
 description: 'Every sensor reading has noise. Learn to quantify uncertainty, filter signals, detect outliers, and express measurements with proper confidence intervals.'
-contributors: "sam-macharia"
+contributors: "sam-macharia, morris-wachira"
 heroImage: "https://cdn.siliconwit.com/education/applied-mathematics/probability-statistics-noise.png"
 pubDate: 2026-03-05
 tags: ["probability", "statistics", "noise", "filtering", "moving-average", "applied-math", "engineering"]
@@ -342,6 +342,14 @@ print(f"Actual outliers: {len(outlier_idx)}")
 
 
 In practice, you combine these techniques into a pipeline: acquire data, detect and remove outliers, filter the remaining data, compute statistics, and report with uncertainty.
+
+```mermaid
+flowchart LR
+    A[Acquire\nraw readings] --> B[Detect outliers\nMAD method]
+    B --> C[Filter\nEMA or moving avg]
+    C --> D[Compute\nmean and std]
+    D --> E[Report\nvalue with CI]
+```
 
 <Steps>
 

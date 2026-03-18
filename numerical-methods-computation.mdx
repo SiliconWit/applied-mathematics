@@ -1,7 +1,7 @@
 ---
 title: 'Numerical Methods: Math in Code'
 description: 'Computers do arithmetic, not calculus. Learn root finding, numerical integration, interpolation, curve fitting, and the Runge-Kutta ODE solver.'
-contributors: "sam-macharia"
+contributors: "sam-macharia, morris-wachira"
 heroImage: "https://cdn.siliconwit.com/education/applied-mathematics/numerical-methods-computation.png"
 pubDate: 2026-03-08
 tags: ["numerical-methods", "root-finding", "integration", "interpolation", "curve-fitting", "RK4", "applied-math"]
@@ -43,6 +43,19 @@ Many engineering problems reduce to finding where a function crosses zero. At wh
 ### Bisection Method: Slow but Bulletproof
 
 The bisection method is the simplest root-finding algorithm. It works like a guessing game:
+
+```mermaid
+flowchart TD
+    A[Start with interval a, b\nwhere f changes sign] --> B[Compute midpoint\nc = a + b / 2]
+    B --> C[Evaluate f at c]
+    C --> D{f c close to zero?}
+    D -- Yes --> E[Root found at c]
+    D -- No --> F{f a and f c\nopposite signs?}
+    F -- Yes --> G[Root in a, c\nset b = c]
+    F -- No --> H[Root in c, b\nset a = c]
+    G --> B
+    H --> B
+```
 
 <Steps>
 

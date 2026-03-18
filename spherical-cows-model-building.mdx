@@ -1,7 +1,7 @@
 ---
 title: 'Spherical Cows and the Art of Model Building'
 description: 'Why all models are wrong, some are useful, and how to build the right one for your problem.'
-contributors: "sam-macharia"
+contributors: "sam-macharia, morris-wachira"
 heroImage: "https://cdn.siliconwit.com/education/applied-mathematics/spherical-cows-model-building.png"
 pubDate: 2026-03-01
 tags: ["modeling", "simulation", "applied-math", "engineering", "abstraction"]
@@ -97,6 +97,18 @@ Before you spend a week building a simulation, spend five minutes estimating the
 
 
 Building a useful model is not a one-shot process. It is a cycle that you repeat until the model is good enough for your purpose.
+
+```mermaid
+flowchart TD
+    A[1. Observe the system] --> B[2. Simplify\nstrip non-essential details]
+    B --> C[3. Formulate\nwrite equations]
+    C --> D[4. Solve\nanalytically or numerically]
+    D --> E[5. Validate\ncompare to real data]
+    E --> F{Accurate enough?}
+    F -- No --> G[6. Refine\nadd back complexity]
+    G --> B
+    F -- Yes --> H[Useful model]
+```
 
 <Steps>
 

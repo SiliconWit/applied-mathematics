@@ -1,7 +1,7 @@
 ---
 title: 'Feedback and Control Systems'
 description: 'Measure the output, compare to the desired value, adjust the input. That is feedback. This lesson covers PID control from intuition to implementation.'
-contributors: "sam-macharia"
+contributors: "sam-macharia, morris-wachira"
 heroImage: "https://cdn.siliconwit.com/education/applied-mathematics/feedback-control-systems.png"
 pubDate: 2026-03-09
 tags: ["PID", "control-systems", "feedback", "Ziegler-Nichols", "stability", "applied-math", "engineering"]
@@ -307,6 +307,17 @@ plt.show()
 Choosing $K_p$, $K_i$, and $K_d$ is the practical challenge. The Ziegler-Nichols method gives you a starting point based on the system's response.
 
 ### Ultimate Gain Method
+
+```mermaid
+flowchart TD
+    A[Set Ki = 0, Kd = 0\nP-only control] --> B[Increase Kp gradually]
+    B --> C{Constant amplitude\noscillation?}
+    C -- No --> B
+    C -- Yes --> D[Record ultimate gain Ku\nand period Tu]
+    D --> E[Apply Ziegler-Nichols\nformulas for Kp, Ki, Kd]
+    E --> F[Test response\n~25% overshoot expected]
+    F --> G[Fine-tune by hand]
+```
 
 <Steps>
 
