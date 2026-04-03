@@ -344,7 +344,7 @@ print(f"Actual outliers: {len(outlier_idx)}")
 In practice, you combine these techniques into a pipeline: acquire data, detect and remove outliers, filter the remaining data, compute statistics, and report with uncertainty.
 
 ```mermaid
-flowchart LR
+flowchart TD
     A[Acquire\nraw readings] --> B[Detect outliers\nMAD method]
     B --> C[Filter\nEMA or moving avg]
     C --> D[Compute\nmean and std]
